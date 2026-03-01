@@ -11,6 +11,7 @@ public class Enemy : Destructible {
   [SerializeField] private bool stopMovingWhenPlayerInAttackRange;
   [SerializeField] private bool attacksInterruptMovement;
   [SerializeField] private GameObject[] attacks; // TEMPORARY UNTIL ANIMATIONS
+  [SerializeField] private GameObject projSpawnPoint; // TEMPORARY
 
   [Header("Enemy Pathing")]
   [SerializeField] private GameObject[] pathMarkers;
@@ -137,9 +138,17 @@ public class Enemy : Destructible {
     Destroy(transform.parent.gameObject);
   }
 
-  protected virtual void EnemyAttack(int i) {
+  protected virtual void EnemyAttack() {
     // TEMPORARY
-    attacks[i].SetActive(true);
+    //attacks[i].SetActive(true);
+
+    if (p != null) {
+      Vector2 projAngle = p.transform.position - projSpawnPoint.transform.position;
+      projAngle.Normalize();
+
+      GameObject proj = Instantiate(attacks[0], projSpawnPoint.transform.position, Quaternion.identity);
+      proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
+    }
   }
 
   public void SpotPlayer(bool spotted, bool inRange, Player player) {
@@ -149,6 +158,11 @@ public class Enemy : Destructible {
 
     if (!spotted)
       FollowPath(currentMarker);
-  }
 
+    if (inRange)
+      InvokeRepeating("EnemyAttack", 0.5f, 1.5f);
+
+    if (!inRange)
+      CancelInvoke();
+  }
 }

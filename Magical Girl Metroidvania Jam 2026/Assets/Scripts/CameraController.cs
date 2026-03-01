@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour {
     target = new Vector3(playerPos.position.x, playerPos.position.y, cam2D ? transform.position.z : playerPos.position.z);
 
     //TEMP
-    minPos = new Vector3(-100, 1.0f, -10);
+    minPos = new Vector3(-1, 1.0f, -10);
     maxPos = new Vector3(100, 100, -10);
   }
 

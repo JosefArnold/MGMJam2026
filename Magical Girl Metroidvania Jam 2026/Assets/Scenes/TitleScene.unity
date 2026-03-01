@@ -1274,7 +1274,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 862828667}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1559284835}
+        m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: BeginningArea
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &862828667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2150,13 +2162,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1559284833}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 669e844aa1e7eff41883adbc8f446a93, type: 3}
+  m_Script: {fileID: 11500000, guid: aee68fd08e893e74cb0d89a898af1c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   eventSystem: {fileID: 1747735433}
   elementsToSwapTo:
   - {fileID: 1851533020}
-  disableOnSwitch: 1
+  disableOnSwitch: 0
 --- !u!1 &1571750633
 GameObject:
   m_ObjectHideFlags: 0
@@ -2483,7 +2495,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1559284835}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
         m_MethodName: SwapMenus
         m_Mode: 3
         m_Arguments:

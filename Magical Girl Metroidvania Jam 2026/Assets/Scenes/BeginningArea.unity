@@ -217,9 +217,11 @@ MonoBehaviour:
   baseMoveSpeed: 4
   attackCooldown: 0
   damagePlayerOnContact: 1
-  stopMovingWhenPlayerInAttackRange: 1
+  stopMovingWhenPlayerInAttackRange: 0
   attacksInterruptMovement: 0
-  attacks: []
+  attacks:
+  - {fileID: 3320242611583994343, guid: f0a4dead31c051843b8a80eefb13979c, type: 3}
+  projSpawnPoint: {fileID: 518409371}
   pathMarkers:
   - {fileID: 1034766109}
   - {fileID: 1589094442}
@@ -313,6 +315,7 @@ Transform:
   - {fileID: 133767745}
   - {fileID: 1670591515}
   - {fileID: 2131308913}
+  - {fileID: 518409372}
   m_Father: {fileID: 518172477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &216659662
@@ -422,6 +425,37 @@ Transform:
   - {fileID: 1589094443}
   - {fileID: 2039198373}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &518409371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 518409372}
+  m_Layer: 7
+  m_Name: ProjectileSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &518409372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518409371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.42, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 216659661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &563599251
 GameObject:
@@ -1021,7 +1055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 133767747}
   visionTrigger: 1
-  attackRangeTrigger: 0
+  attackRangeTrigger: 1
   attackIndex: 0
 --- !u!61 &1670591517
 BoxCollider2D:
@@ -1057,7 +1091,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 4, y: 1}
+  m_Offset: {x: -4, y: 1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1715,7 +1749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2131308913
 Transform:
   m_ObjectHideFlags: 0
