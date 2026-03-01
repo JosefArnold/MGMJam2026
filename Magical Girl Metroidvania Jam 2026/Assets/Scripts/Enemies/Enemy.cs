@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : Destructible {
 
   [Header("Base Enemy Variables")]
-  [SerializeField] private int health;
   [SerializeField] private bool moving;
   [SerializeField] private bool flying;
   [SerializeField] private float baseMoveSpeed;
+  [SerializeField] private float attackCooldown; // TEMPORARY UNTIL ANIMATIONS, OTHERWISE I COULD HAVE THE ANIMATION SCRIPT TOGGLE THE ATTACKING BOOL ON OR OFF
   [SerializeField] private bool damagePlayerOnContact;
+  [SerializeField] private bool stopMovingWhenPlayerInAttackRange;
+  [SerializeField] private bool attacksInterruptMovement;
+  [SerializeField] private GameObject[] attacks; // TEMPORARY UNTIL ANIMATIONS
 
   [Header("Enemy Pathing")]
   [SerializeField] private GameObject[] pathMarkers;
@@ -15,12 +18,17 @@ public class Enemy : MonoBehaviour {
   private int currentMarker;
   private Vector2 velocity;
 
+  // References to set in script
+  private Player p;
+
   // Components
   private Rigidbody2D rb;
   private Animator anim;
 
   // Variables to actually change during gameplay
-  private bool PlayerSpotted;
+  private bool playerSpotted;
+  private bool playerInAttackRange;
+  private bool attacking;
 
   private void Start() {
     rb = transform.parent.GetComponent<Rigidbody2D>();
@@ -28,28 +36,58 @@ public class Enemy : MonoBehaviour {
     if (flying)
       rb.bodyType = RigidbodyType2D.Kinematic;
 
+    currentMarker = 1;
+
     if (moving)
-      FollowPath(1);
+      FollowPath(currentMarker);
   }
 
   private void FixedUpdate() {
     if (moving) {
 
-      if (flying) {
+      if (!playerSpotted) {
+        if (flying) {
 
-        if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.25f) {
-          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-          FollowPath(currentMarker);
+          if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.3f) {
+            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+            FollowPath(currentMarker);
+          }
+          rb.linearVelocity = velocity;
+
+        } else {
+
+          if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.3f) {
+            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+            FollowPath(currentMarker);
+          }
+          rb.linearVelocityX = velocity.x;
+
         }
-        rb.linearVelocity = velocity;
+      } else if (playerSpotted && p != null) {
 
-      } else {
+        if ((!playerInAttackRange || !stopMovingWhenPlayerInAttackRange) &&
+        (!attacksInterruptMovement && !attacking)) {
 
-        if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.25f) {
-          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-          FollowPath(currentMarker);
+          if (flying) {
+
+            Vector2 playerCoords = p.gameObject.transform.position - transform.position;
+            playerCoords.Normalize();
+
+            velocity = playerCoords * baseMoveSpeed;
+
+            rb.linearVelocity = velocity;
+
+          } else {
+
+            rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed;
+
+          }
+
         }
-        rb.linearVelocityX = velocity.x;
+
+        if (playerInAttackRange && stopMovingWhenPlayerInAttackRange) {
+          rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
+        }
 
       }
 
@@ -61,7 +99,7 @@ public class Enemy : MonoBehaviour {
       if (collision.gameObject.CompareTag("Player") && damagePlayerOnContact) {
         Player p = collision.gameObject.GetComponent<Player>();
 
-        p.TakeDamage();
+        p.TakeDamage(1);
       }
     }
   }
@@ -95,15 +133,22 @@ public class Enemy : MonoBehaviour {
     }
   }
 
-  public void TakeDamage(int damage) {
-    health -= damage;
-
-    if (health <= 0) 
-      Death();
+  protected override void Death() {
+    Destroy(transform.parent.gameObject);
   }
 
-  private void Death() {
-    Destroy(transform.parent.gameObject);
+  protected virtual void EnemyAttack(int i) {
+    // TEMPORARY
+    attacks[i].SetActive(true);
+  }
+
+  public void SpotPlayer(bool spotted, bool inRange, Player player) {
+    p = player;
+    playerSpotted = spotted;
+    playerInAttackRange = inRange;
+
+    if (!spotted)
+      FollowPath(currentMarker);
   }
 
 }
