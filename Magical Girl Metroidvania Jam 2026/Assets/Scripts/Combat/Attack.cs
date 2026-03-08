@@ -46,7 +46,6 @@ public class Attack : MonoBehaviour {
         Debug.Log(hits);
 
         if (projectile && hits >= destroyAfterHits) {
-          Debug.Log("Check 1");
           Destroy(gameObject);
         }
       } else if (projectile && !collision.gameObject.CompareTag("Player") && !pierceWalls) {

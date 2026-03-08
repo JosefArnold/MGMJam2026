@@ -11,6 +11,10 @@ public class Barrier : Destructible {
 
   }
 
+  protected override void DamageEffect() {
+
+  }
+
   protected override void Death() {
     Destroy(gameObject);
   }

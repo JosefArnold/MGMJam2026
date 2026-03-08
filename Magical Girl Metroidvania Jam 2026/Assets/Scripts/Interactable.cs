@@ -11,7 +11,7 @@ public abstract class Interactable : MonoBehaviour {
   private void OnTriggerEnter2D(Collider2D collision) {
     if (collision != null && collision.gameObject.CompareTag("Player")) {
       if (triggerOnContact)
-        Interact();
+        Interact(collision.gameObject.GetComponent<Player>());
       else {
         prompt.SetActive(true);
         collision.gameObject.GetComponent<Player>().InteractableInRange(this);
@@ -26,6 +26,6 @@ public abstract class Interactable : MonoBehaviour {
     }
   }
 
-  public abstract void Interact();
+  public abstract void Interact(Player p);
 
 }

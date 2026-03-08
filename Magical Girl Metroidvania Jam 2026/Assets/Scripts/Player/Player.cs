@@ -4,30 +4,40 @@ using UnityEngine.InputSystem;
 
 public class Player : Destructible, Controls.IPlayerActions {
 
-  [Header("Player Variables")]
+  [Header("Movement Variables")]
   [SerializeField] private float baseMoveSpeed;
   [SerializeField] private float jumpHeight;
+
+  [Header("Ability Variables")]
   [SerializeField] private float flightSpeed;
   [SerializeField] private float flightDuration;
   [SerializeField] private float projectileChargeTime;
+  [SerializeField] private float dashDistance;
+  [SerializeField] private float dashCooldown;
+  [SerializeField] private float flashbangCooldown;
+  [SerializeField] GameObject basicProjectile;
+  [SerializeField] GameObject chargeBlast;
+
+  [Header("Ground Detection")]
   [SerializeField] Vector2 boxSize; // For the ground raycasting
   [SerializeField] float groundDistance; // Also for the ground raycasting
   [SerializeField] LayerMask groundLayer;
   [SerializeField] GameObject temporaryAttackObject; // DELETE LATER
-  [SerializeField] GameObject basicProjectile;
-  [SerializeField] GameObject chargeBlast;
+
   private Vector2 cameraFocusPoint;
   private Vector2 projectileSpawnPoint;
+  private Vector2 dashTarget;
   private float facingDirection = 1;
   private bool projectileCharging;
   private float chargeTime;
 
   // 0: Attack
   // 1: Shoot
-  // 2: Flight
-  // 3: Charge Shoot
-  // 4: Whatever we make this ability lol
-  private bool[] abilities = { true, true, true, false };
+  // 2: Charge Shot
+  // 3: Flight
+  // 4: Teleport
+  // 5: Fullscreen Flash Stun
+  private bool[] abilities = { false, false, false, false, false, false };
   private bool holdingFlight = false;
   private float flightMeter;
   private bool holdingShoot = false;
@@ -42,10 +52,12 @@ public class Player : Destructible, Controls.IPlayerActions {
   // Components
   private Rigidbody2D rb;
   private Animator anim;
+  private SpriteRenderer sr;
 
   // Input Controls
   private Controls controls;
   private Vector2 moveValue;
+  private Vector2 lookValue;
 
   void OnEnable() {
     if (controls == null) {
@@ -58,7 +70,10 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
+    health = maxHealth;
     rb = GetComponent<Rigidbody2D>();
+    //anim = GetComponent<Animator>();
+    //sr = GetComponent<SpriteRenderer>();
 
     flightMeter = flightDuration;
   }
@@ -107,7 +122,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   void OnDisable() => controls.Player.Disable();
 
   public void OnPause(InputAction.CallbackContext ctx) {
-
+    UIManager.ptr.Pause();
   }
 
   public void OnMove(InputAction.CallbackContext ctx) {
@@ -115,20 +130,22 @@ public class Player : Destructible, Controls.IPlayerActions {
 
     if (moveValue.x != 0) 
       facingDirection = moveValue.x;
+
+    if (ctx.canceled)
+      Debug.Log("Check");
   }
 
   public void OnInteract(InputAction.CallbackContext ctx) {
     if (interactableInRange)
-      interactable.Interact();
+      interactable.Interact(this);
   }
 
   public void OnJump(InputAction.CallbackContext ctx) {
     if (ctx.performed) {
       if (IsGrounded()) {
         rb.linearVelocityY = jumpHeight;
-      } else if (abilities[2])
+      } else if (abilities[3])
         holdingFlight = true;
-
     }
 
     if (ctx.canceled && !IsGrounded()) {
@@ -148,20 +165,27 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnLook(InputAction.CallbackContext ctx) {
+    Vector2 inputVector = ctx.ReadValue<Vector2>();
 
+    lookValue = new Vector2 (Mathf.Clamp(inputVector.x, -1, 1), Mathf.Clamp(inputVector.y, -1, 1));
   }
 
   private void MoveProjectileSpawnPoint() {
     Vector3 playerPos = gameObject.transform.position;
 
-    if (moveValue.x != 0 || moveValue.y != 0) 
-      projectileSpawnPoint = new Vector2(playerPos.x + moveValue.x, playerPos.y + moveValue.y);
+    if (lookValue != Vector2.zero)
+      projectileSpawnPoint = new Vector2(playerPos.x + (lookValue.x * 1.25f), playerPos.y + (lookValue.y * 1.25f));
+    /*else if (moveValue != Vector2.zero) 
+      projectileSpawnPoint = new Vector2(playerPos.x + moveValue.x, playerPos.y + moveValue.y);*/
     else
-      projectileSpawnPoint = new Vector2(playerPos.x + facingDirection, playerPos.y + moveValue.y);
+      projectileSpawnPoint = new Vector2(playerPos.x + (facingDirection * 1.25f), playerPos.y + (moveValue.y * 1.25f));
   }
 
   private void MoveCameraFocusPoint() {
-    cam.SetTarget(gameObject.transform.position, moveValue);
+    if (lookValue != Vector2.zero)
+      cam.SetTarget(gameObject.transform.position, lookValue);
+    else
+      cam.SetTarget(gameObject.transform.position, moveValue / 2);
   }
 
   public void OnShoot(InputAction.CallbackContext ctx) {
@@ -177,10 +201,11 @@ public class Player : Destructible, Controls.IPlayerActions {
 
       proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
 
-      projectileCharging = true;
+      if (abilities[2])
+        projectileCharging = true;
     }
 
-    if (ctx.canceled) {
+    if (ctx.canceled && abilities[2]) {
       if (chargeTime >= projectileChargeTime) {
         Vector2 projAngle = new Vector2(moveValue.y > 0 && moveValue.x == 0 ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
         moveValue.y > 0 ? moveValue.y : 0.0f); // If the player is aiming up
@@ -199,6 +224,22 @@ public class Player : Destructible, Controls.IPlayerActions {
     }
   }
 
+  public void OnDash(InputAction.CallbackContext ctx) {
+    if (abilities[4]) {
+      rb.linearVelocityY = 0.0f;
+    }
+  }
+
+  public void OnFlashbang(InputAction.CallbackContext ctx) {
+    if (abilities[5]) {
+
+    }
+  }
+
+  protected override void DamageEffect() {
+
+  }
+
   protected override void Death() {
     Destroy(gameObject);
   }
@@ -210,6 +251,17 @@ public class Player : Destructible, Controls.IPlayerActions {
       interactableInRange = false;
     else
       interactableInRange = true;
+  }
+
+  public void ToggleAbility(int index) {
+    abilities[index] = !abilities[index];
+  }
+
+  public void ToggleControls(bool enabled) {
+    if (enabled)
+      controls.Enable();
+    else
+      controls.Disable();
   }
 
 }

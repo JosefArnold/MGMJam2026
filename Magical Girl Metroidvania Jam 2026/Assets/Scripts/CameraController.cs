@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
@@ -10,6 +11,9 @@ public class CameraController : MonoBehaviour {
 
   private Vector3 maxPos;
   private Vector3 minPos;
+
+  private bool lockPosition;
+  private Vector3 positionToLockTo;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
@@ -39,16 +43,26 @@ public class CameraController : MonoBehaviour {
   }
 
   public void SetBounds(Vector3 min, Vector3 max) {
+    lockPosition = false;
     minPos = min;
     maxPos = max;
   }
 
   public void SetTarget(Vector3 playerTarget, Vector3 input) {
-    Vector3 focusChange = input * cameraMovementRange;
+    if (!lockPosition) {
+      Vector3 focusChange = input * cameraMovementRange;
 
-    Vector3 newTarget = new Vector3(playerTarget.x + focusChange.x, playerTarget.y + focusChange.y,
-      cam2D ? transform.position.z : playerTarget.z + focusChange.z);
+      Vector3 newTarget = new Vector3(playerTarget.x + focusChange.x, playerTarget.y + focusChange.y,
+        cam2D ? transform.position.z : playerTarget.z + focusChange.z);
 
-    target = newTarget;
+      target = newTarget;
+    }
+  }
+
+  public void LockPosition(bool lockPos, Vector3 newTarget) {
+    lockPosition = lockPos;
+
+    if (lockPos)
+      target = newTarget;
   }
 }

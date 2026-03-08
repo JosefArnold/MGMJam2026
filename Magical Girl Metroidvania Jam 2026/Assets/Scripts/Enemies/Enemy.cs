@@ -1,6 +1,11 @@
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Enemy : Destructible {
+
+  [Header("References")]
+  [SerializeField] private Transform[] triggers;
 
   [Header("Base Enemy Variables")]
   [SerializeField] private bool moving;
@@ -10,6 +15,8 @@ public class Enemy : Destructible {
   [SerializeField] private bool damagePlayerOnContact;
   [SerializeField] private bool stopMovingWhenPlayerInAttackRange;
   [SerializeField] private bool attacksInterruptMovement;
+  [SerializeField] private bool turnToFacePlayer;
+  [SerializeField] private float minDistance;
   [SerializeField] private GameObject[] attacks; // TEMPORARY UNTIL ANIMATIONS
   [SerializeField] private GameObject projSpawnPoint; // TEMPORARY
 
@@ -25,14 +32,20 @@ public class Enemy : Destructible {
   // Components
   private Rigidbody2D rb;
   private Animator anim;
+  private SpriteRenderer sr;
 
   // Variables to actually change during gameplay
   private bool playerSpotted;
   private bool playerInAttackRange;
   private bool attacking;
+  private int direction = 0;
 
   private void Start() {
     rb = transform.parent.GetComponent<Rigidbody2D>();
+    //anim = GetComponent<Animator>();
+    //sr = GetComponent<SpriteRenderer>();
+
+    health = maxHealth;
 
     if (flying)
       rb.bodyType = RigidbodyType2D.Kinematic;
@@ -46,51 +59,8 @@ public class Enemy : Destructible {
   private void FixedUpdate() {
     if (moving) {
 
-      if (!playerSpotted) {
-        if (flying) {
-
-          if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.3f) {
-            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-            FollowPath(currentMarker);
-          }
-          rb.linearVelocity = velocity;
-
-        } else {
-
-          if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.3f) {
-            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-            FollowPath(currentMarker);
-          }
-          rb.linearVelocityX = velocity.x;
-
-        }
-      } else if (playerSpotted && p != null) {
-
-        if ((!playerInAttackRange || !stopMovingWhenPlayerInAttackRange) &&
-        (!attacksInterruptMovement && !attacking)) {
-
-          if (flying) {
-
-            Vector2 playerCoords = p.gameObject.transform.position - transform.position;
-            playerCoords.Normalize();
-
-            velocity = playerCoords * baseMoveSpeed;
-
-            rb.linearVelocity = velocity;
-
-          } else {
-
-            rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed;
-
-          }
-
-        }
-
-        if (playerInAttackRange && stopMovingWhenPlayerInAttackRange) {
-          rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
-        }
-
-      }
+      FaceDirection();
+      Move();
 
     }
   }
@@ -98,9 +68,79 @@ public class Enemy : Destructible {
   private void OnTriggerEnter2D(Collider2D collision) {
     if (collision != null) {
       if (collision.gameObject.CompareTag("Player") && damagePlayerOnContact) {
-        Player p = collision.gameObject.GetComponent<Player>();
+        Player player = collision.gameObject.GetComponent<Player>();
 
-        p.TakeDamage(1);
+        player.TakeDamage(1);
+      }
+    }
+  }
+
+  private void Move() {
+    if (!playerSpotted) {
+      if (flying) {
+
+        if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.3f) {
+          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+          FollowPath(currentMarker);
+        }
+        rb.linearVelocity = velocity;
+
+      } else {
+
+        if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.3f) {
+          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+          FollowPath(currentMarker);
+        }
+        rb.linearVelocityX = velocity.x;
+
+      }
+    } else if (playerSpotted && p != null) {
+
+      if ((!playerInAttackRange || !stopMovingWhenPlayerInAttackRange) &&
+      (!attacksInterruptMovement && !attacking) &&
+      (minDistance != 0 && Vector2.Distance(transform.position, p.gameObject.transform.position) > minDistance)) {
+
+        if (flying) {
+
+          Vector2 playerCoords = p.gameObject.transform.position - transform.position;
+          playerCoords.Normalize();
+
+          velocity = playerCoords * baseMoveSpeed;
+
+          rb.linearVelocity = velocity;
+
+        } else {
+
+          rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed;
+
+        }
+
+      } else if (minDistance > 0 && Vector2.Distance(transform.position, p.gameObject.transform.position) < minDistance) {
+        if (flying) {
+          Vector2 playerWaypoint = p.gameObject.transform.position - transform.position;
+          playerWaypoint.Normalize();
+
+          velocity = playerWaypoint * (-baseMoveSpeed / 1.5f);
+        } else 
+          rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? baseMoveSpeed / 1.5f : -baseMoveSpeed / 1.5f;
+      }
+
+      if (playerInAttackRange && stopMovingWhenPlayerInAttackRange) 
+        rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
+
+    }
+  }
+
+  private void FaceDirection() {
+    if (playerSpotted && turnToFacePlayer && p != null) {
+      direction = p.transform.position.x - transform.position.x < 0 ? -1 : 1;
+    } else if (moving) {
+      direction = rb.linearVelocityX > 0 ? 1 : -1;
+    }
+
+    if (direction != 0) {
+      foreach (Transform t in triggers) {
+        t.localScale = new Vector3(direction, t.localScale.y, t.localScale.z);
       }
     }
   }
@@ -134,14 +174,21 @@ public class Enemy : Destructible {
     }
   }
 
+  protected override void DamageEffect() {
+    
+  }
+
   protected override void Death() {
     Destroy(transform.parent.gameObject);
   }
 
   protected virtual void EnemyAttack() {
+
+    attacking = true;
     // TEMPORARY
     //attacks[i].SetActive(true);
 
+    // CUT AND PASTE FOR RANGED ENEMY CHILD SCRIPT
     if (p != null) {
       Vector2 projAngle = p.transform.position - projSpawnPoint.transform.position;
       projAngle.Normalize();

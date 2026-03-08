@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 533201101
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -166,12 +166,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c6321248fce4b04d863684e38e7f845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
+  maxHealth: 5
   baseMoveSpeed: 4
   jumpHeight: 18
   flightSpeed: 6
-  boxSize: {x: 0.75, y: 0.025}
-  groundDistance: 0.75
+  flightDuration: 2
+  projectileChargeTime: 1.5
+  dashDistance: 0
+  dashCooldown: 0
+  flashbangCooldown: 0
+  basicProjectile: {fileID: 3320242611583994343, guid: b96e87d1d04ba9d419f87e1e8272fd2a, type: 3}
+  chargeBlast: {fileID: 6642098235319573494, guid: 12af598dfa264974f999d34bf39e95d0, type: 3}
+  boxSize: {x: 0.95, y: 0.025}
+  groundDistance: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  temporaryAttackObject: {fileID: 0}
