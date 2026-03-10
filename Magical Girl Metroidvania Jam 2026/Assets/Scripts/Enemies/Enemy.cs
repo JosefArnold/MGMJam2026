@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -39,6 +40,7 @@ public class Enemy : Destructible {
   private bool playerInAttackRange;
   private bool attacking;
   private int direction = 0;
+  private bool stunned;
 
   private void Start() {
     rb = transform.parent.GetComponent<Rigidbody2D>();
@@ -76,83 +78,90 @@ public class Enemy : Destructible {
   }
 
   private void Move() {
-    if (!playerSpotted) {
-      if (flying) {
-
-        if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.3f) {
-          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-          FollowPath(currentMarker);
-        }
-        rb.linearVelocity = velocity;
-
-      } else {
-
-        if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.3f) {
-          currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
-          FollowPath(currentMarker);
-        }
-        rb.linearVelocityX = velocity.x;
-
-      }
-    } else if (playerSpotted && p != null) {
-
-      if ((!playerInAttackRange || !stopMovingWhenPlayerInAttackRange) &&
-      (!attacksInterruptMovement && !attacking) &&
-      (minDistance != 0 && Vector2.Distance(transform.position, p.gameObject.transform.position) > minDistance)) {
-
+    if (!stunned) {
+      if (!playerSpotted) {
         if (flying) {
 
-          Vector2 playerCoords = p.gameObject.transform.position - transform.position;
-          playerCoords.Normalize();
-
-          velocity = playerCoords * baseMoveSpeed;
-
+          if (Vector2.Distance(pathMarkers[currentMarker].transform.position, transform.position) < 0.3f) {
+            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+            FollowPath(currentMarker);
+          }
           rb.linearVelocity = velocity;
 
         } else {
 
-          rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed;
+          if (Mathf.Abs(pathMarkers[currentMarker].transform.position.x - transform.position.x) < 0.3f) {
+            currentMarker = (currentMarker < pathMarkers.Length - 1 ? currentMarker + 1 : 0);
+            FollowPath(currentMarker);
+          }
+          rb.linearVelocityX = velocity.x;
 
         }
+      } else if (playerSpotted && p != null) {
 
-      } else if (minDistance > 0 && Vector2.Distance(transform.position, p.gameObject.transform.position) < minDistance) {
-        if (flying) {
-          Vector2 playerWaypoint = p.gameObject.transform.position - transform.position;
-          playerWaypoint.Normalize();
+        if ((!playerInAttackRange || !stopMovingWhenPlayerInAttackRange) &&
+        (!attacksInterruptMovement && !attacking) &&
+        (minDistance == 0 || (minDistance != 0 && Vector2.Distance(transform.position, p.gameObject.transform.position) > minDistance))) {
 
-          velocity = playerWaypoint * (-baseMoveSpeed / 1.5f);
-        } else 
-          rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? baseMoveSpeed / 1.5f : -baseMoveSpeed / 1.5f;
+          if (flying) {
+
+            Vector2 playerCoords = p.gameObject.transform.position - transform.position;
+            playerCoords.Normalize();
+
+            velocity = playerCoords * baseMoveSpeed;
+
+            rb.linearVelocity = velocity;
+
+          } else {
+
+            rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed;
+
+          }
+
+        } else if (minDistance > 0 && (minDistance - 0.25f) < Vector2.Distance(transform.position, p.gameObject.transform.position)
+          && Vector2.Distance(transform.position, p.gameObject.transform.position) < (minDistance + 0.25f)) {
+          if (flying) {
+            Vector2 playerWaypoint = p.gameObject.transform.position - transform.position;
+            playerWaypoint.Normalize();
+
+            velocity = playerWaypoint * (-baseMoveSpeed / 1.5f);
+          } else
+            rb.linearVelocityX = p.gameObject.transform.position.x - transform.position.x < 0 ? baseMoveSpeed / 1.5f : -baseMoveSpeed / 1.5f;
+        }
+
+        if (playerInAttackRange && stopMovingWhenPlayerInAttackRange)
+          rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
+
       }
-
-      if (playerInAttackRange && stopMovingWhenPlayerInAttackRange) 
-        rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
-
     }
   }
 
   private void FaceDirection() {
-    if (playerSpotted && turnToFacePlayer && p != null) {
-      direction = p.transform.position.x - transform.position.x < 0 ? -1 : 1;
-    } else if (moving) {
-      direction = rb.linearVelocityX > 0 ? 1 : -1;
-    }
+    if (!stunned) {
+      if (playerSpotted && turnToFacePlayer && p != null) {
+        direction = p.transform.position.x - transform.position.x < 0 ? -1 : 1;
+      } else if (moving) {
+        direction = rb.linearVelocityX > 0 ? 1 : -1;
+      }
 
-    if (direction != 0) {
-      foreach (Transform t in triggers) {
-        t.localScale = new Vector3(direction, t.localScale.y, t.localScale.z);
+      if (direction != 0) {
+        foreach (Transform t in triggers) {
+          t.localScale = new Vector3(direction, t.localScale.y, t.localScale.z);
+        }
       }
     }
   }
 
   private void FollowPath(int nextMarker) {
-    if (flying) {
-      Vector2 markerCoords = pathMarkers[nextMarker].transform.position - transform.position;
-      markerCoords.Normalize();
+    if (!stunned) {
+      if (flying) {
+        Vector2 markerCoords = pathMarkers[nextMarker].transform.position - transform.position;
+        markerCoords.Normalize();
 
-      velocity = markerCoords * baseMoveSpeed;
-    } else {
-      velocity = new Vector2((pathMarkers[nextMarker].transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed), 0.0f);
+        velocity = markerCoords * baseMoveSpeed;
+      } else {
+        velocity = new Vector2((pathMarkers[nextMarker].transform.position.x - transform.position.x < 0 ? -baseMoveSpeed : baseMoveSpeed), 0.0f);
+      }
     }
   }
 
@@ -183,22 +192,24 @@ public class Enemy : Destructible {
   }
 
   protected virtual void EnemyAttack() {
+    if (!stunned) {
+      attacking = true;
+      // TEMPORARY
+      //attacks[i].SetActive(true);
 
-    attacking = true;
-    // TEMPORARY
-    //attacks[i].SetActive(true);
+      // CUT AND PASTE FOR RANGED ENEMY CHILD SCRIPT
+      if (p != null) {
+        Vector2 projAngle = p.transform.position - projSpawnPoint.transform.position;
+        projAngle.Normalize();
 
-    // CUT AND PASTE FOR RANGED ENEMY CHILD SCRIPT
-    if (p != null) {
-      Vector2 projAngle = p.transform.position - projSpawnPoint.transform.position;
-      projAngle.Normalize();
-
-      GameObject proj = Instantiate(attacks[0], projSpawnPoint.transform.position, Quaternion.identity);
-      proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
+        GameObject proj = Instantiate(attacks[0], projSpawnPoint.transform.position, Quaternion.identity);
+        proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
+      }
     }
   }
 
   public void SpotPlayer(bool spotted, bool inRange, Player player) {
+
     p = player;
     playerSpotted = spotted;
     playerInAttackRange = inRange;
@@ -209,7 +220,33 @@ public class Enemy : Destructible {
     if (inRange)
       InvokeRepeating("EnemyAttack", 0.5f, 1.5f);
 
-    if (!inRange)
+    if (!inRange && !stunned)
       CancelInvoke();
+  }
+
+  public void Stun() {
+    stunned = true;
+
+    CancelInvoke();
+
+    if (flying)
+      rb.linearVelocity = Vector2.zero;
+    else
+      rb.linearVelocityX = 0;
+
+      StartCoroutine(StunWearOff());
+
+    InvokeRepeating("StunDamage", 0.0f, 1.0f);
+  }
+
+  private void StunDamage() {
+    TakeDamage(1);
+  }
+
+  IEnumerator StunWearOff() {
+    yield return new WaitForSeconds(3.0f);
+
+    CancelInvoke();
+    stunned = false;
   }
 }

@@ -5,17 +5,21 @@ public abstract class Destructible : MonoBehaviour {
   [Header("Destructible Variables")]
   [SerializeField] protected int maxHealth;
 
+  protected bool iFrames;
+
   protected int health;
 
   public void TakeDamage(int damage) {
-    health -= damage;
+    if (!iFrames || damage < 0) {
+      health -= damage;
 
-    Mathf.Clamp(health, 0, maxHealth);
+      Mathf.Clamp(health, 0, maxHealth);
 
-    if (health <= 0)
-      Death();
-    else
-      DamageEffect();
+      if (health <= 0)
+        Death();
+      else
+        DamageEffect();
+    }
   }
 
   protected abstract void DamageEffect();

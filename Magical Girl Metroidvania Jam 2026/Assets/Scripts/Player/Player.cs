@@ -17,6 +17,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   [SerializeField] private float flashbangCooldown;
   [SerializeField] GameObject basicProjectile;
   [SerializeField] GameObject chargeBlast;
+  [SerializeField] GameObject flashbang;
 
   [Header("Ground Detection")]
   [SerializeField] Vector2 boxSize; // For the ground raycasting
@@ -31,15 +32,16 @@ public class Player : Destructible, Controls.IPlayerActions {
   private bool projectileCharging;
   private float chargeTime;
 
-  // 0: Attack
-  // 1: Shoot
-  // 2: Charge Shot
-  // 3: Flight
-  // 4: Teleport
+  // 0: Jump
+  // 1: Attack
+  // 2: Shoot
+  // 3: Charge Shot
+  // 4: Flight
   // 5: Fullscreen Flash Stun
   private bool[] abilities = { false, false, false, false, false, false };
   private bool holdingFlight = false;
   private float flightMeter;
+  private float flashCooldown;
   private bool holdingShoot = false;
 
   // References to change in script
@@ -64,8 +66,6 @@ public class Player : Destructible, Controls.IPlayerActions {
       controls = new Controls();
       controls.Player.SetCallbacks(this);
     }
-
-    controls.Player.Enable();
   }
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -93,6 +93,9 @@ public class Player : Destructible, Controls.IPlayerActions {
 
     if (projectileCharging && chargeTime < projectileChargeTime)
       chargeTime += Time.deltaTime;
+
+    if (flashCooldown > 0.0f)
+      flashCooldown -= Time.deltaTime;
   }
 
   public void CameraRef(CameraController c) {
@@ -141,10 +144,10 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnJump(InputAction.CallbackContext ctx) {
-    if (ctx.performed) {
+    if (abilities[0] && ctx.performed) {
       if (IsGrounded()) {
         rb.linearVelocityY = jumpHeight;
-      } else if (abilities[3])
+      } else if (abilities[4])
         holdingFlight = true;
     }
 
@@ -160,7 +163,7 @@ public class Player : Destructible, Controls.IPlayerActions {
     // Just note to self for later: when we have the attack animation, I can use it to toggle the attack trigger on and off,
     // so in here I would just tell the animator to play that animation
 
-    if (abilities[0])
+    if (abilities[1])
       temporaryAttackObject.SetActive(true);
   }
 
@@ -189,7 +192,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnShoot(InputAction.CallbackContext ctx) {
-    if (abilities[1] && ctx.performed) {
+    if (abilities[2] && ctx.performed) {
       Vector2 projAngle = new Vector2(moveValue.y > 0 && moveValue.x == 0 ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
         moveValue.y > 0 ? moveValue.y : 0.0f); // If the player is aiming up
 
@@ -201,11 +204,11 @@ public class Player : Destructible, Controls.IPlayerActions {
 
       proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
 
-      if (abilities[2])
+      if (abilities[3])
         projectileCharging = true;
     }
 
-    if (ctx.canceled && abilities[2]) {
+    if (ctx.canceled && abilities[3]) {
       if (chargeTime >= projectileChargeTime) {
         Vector2 projAngle = new Vector2(moveValue.y > 0 && moveValue.x == 0 ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
         moveValue.y > 0 ? moveValue.y : 0.0f); // If the player is aiming up
@@ -224,24 +227,38 @@ public class Player : Destructible, Controls.IPlayerActions {
     }
   }
 
-  public void OnDash(InputAction.CallbackContext ctx) {
-    if (abilities[4]) {
-      rb.linearVelocityY = 0.0f;
+  public void OnFlashbang(InputAction.CallbackContext ctx) {
+    if (abilities[5] && flashCooldown <= 0) {
+      ToggleIFrames();
+      rb.linearVelocity = Vector2.zero;
+      rb.gravityScale = 0.0f;
+      controls.Disable();
+      flashCooldown = flashbangCooldown + 1.0f;
+
+      Invoke("Flashbang", 1.0f);
+      Invoke("ToggleIFrames", 1.0f);
     }
   }
 
-  public void OnFlashbang(InputAction.CallbackContext ctx) {
-    if (abilities[5]) {
+  private void Flashbang() {
+    flashbang.SetActive(true);
 
-    }
+    rb.gravityScale = 3.5f;
+    controls.Enable();
   }
 
   protected override void DamageEffect() {
+    ToggleIFrames();
+    Invoke("ToggleIFrames", 0.5f);
+  }
 
+  private void ToggleIFrames() {
+    iFrames = !iFrames;
   }
 
   protected override void Death() {
-    Destroy(gameObject);
+    controls.Disable();
+    //Destroy(gameObject);
   }
 
   public void InteractableInRange(Interactable i) {
@@ -255,6 +272,14 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void ToggleAbility(int index) {
     abilities[index] = !abilities[index];
+  }
+
+  public void SetAbilities(bool[] b) {
+    abilities = b;
+  }
+
+  public bool[] GetAbilities() {
+    return abilities;
   }
 
   public void ToggleControls(bool enabled) {

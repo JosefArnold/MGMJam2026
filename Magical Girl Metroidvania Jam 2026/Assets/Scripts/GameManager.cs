@@ -1,0 +1,53 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameManager : MonoBehaviour {
+
+  public static GameManager ptr;
+
+  [SerializeField] private Transform[] savePoints;
+
+  public string nextScene; // Name of the next scene to load
+
+  [SerializeField] private Player p;
+
+  private void Awake() {
+    ptr = this;
+  }
+
+  // Start is called once before the first execution of Update after the MonoBehaviour is created
+  void Start() {
+
+  }
+
+  // Update is called once per frame
+  void Update() {
+
+  }
+
+  public void PrepSceneTransition(string scene) {
+    nextScene = scene;
+    p.ToggleControls(false);
+    UIManager.ptr.onFade += ChangeScene;
+    UIManager.ptr.ToggleElement(0);
+    UIManager.ptr.SetFadeImage(null, 1.0f);
+    UIManager.ptr.Fade();
+  }
+
+  public void ChangeScene() {
+    SceneManager.LoadScene(nextScene);
+  }
+
+  public void Quit() {
+    p.ToggleControls(false);
+    UIManager.ptr.onFade += Application.Quit;
+    UIManager.ptr.ToggleElement(0);
+    UIManager.ptr.SetFadeImage(null, 1.0f);
+    UIManager.ptr.Fade();
+  }
+
+  public Transform GetSavePoint(int index) {
+    return savePoints[index];
+  }
+
+}

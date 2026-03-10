@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
@@ -8,10 +10,23 @@ public class UIManager : MonoBehaviour {
   [SerializeField] private Player p;
 
   //UI Elements
+  [SerializeField] private GameObject[] UIGroups;
+  [SerializeField] private Image sceneTransition; // The black image used to fade in and out of scenes
   [SerializeField] private GameObject pauseMenu;
 
   //Variables
   private bool paused = false;
+
+  //Fade stuff
+  private List<Image> fadeImage = new List<Image>(); // The image that's supposed to fade
+  bool startFade = false;
+  bool imageFaded = false; // Whether or not the image has finished fading
+  private List<float> currentAlphas = new List<float>(); // Current alpha value of image
+  private List<float> targetAlphas = new List<float>(); // Target alpha value of image
+
+  // Event for when an image finishes fading
+  public delegate void FinishedFade();
+  public FinishedFade onFade;
 
   private void Awake() {
     ptr = this;
@@ -19,12 +34,38 @@ public class UIManager : MonoBehaviour {
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
-
+    fadeImage.Add(sceneTransition);
+    currentAlphas.Add(1.0f);
+    targetAlphas.Add(0.0f);
+    Invoke(nameof(Fade), 0.25f);
   }
 
   // Update is called once per frame
-  void Update() {
+  void FixedUpdate() {
+    if (startFade)
+      Fade();
 
+    if (imageFaded) {
+      if (onFade != null) {
+        onFade();
+        onFade = null;
+      }
+
+      if (fadeImage[0] == sceneTransition && targetAlphas[0] == 0.0f) {
+        ToggleElement(0);
+        p.ToggleControls(true);
+      }
+
+      fadeImage.Clear();
+      currentAlphas.Clear();
+      targetAlphas.Clear();
+
+      imageFaded = false;
+    }
+  }
+
+  public void ToggleElement(int newGroupIndex) {
+    UIGroups[newGroupIndex].SetActive(!UIGroups[newGroupIndex].activeSelf);
   }
 
   public void Pause() {
@@ -36,5 +77,37 @@ public class UIManager : MonoBehaviour {
       Time.timeScale = 0.0f;
     else
       Time.timeScale = 1.0f;
+  }
+
+  public void Fade() {
+    if (!startFade)
+      startFade = true;
+
+    for (int i = 0; i < fadeImage.Count; i++) {
+      currentAlphas[i] = Mathf.MoveTowards(currentAlphas[i], targetAlphas[i], 0.8f * Time.deltaTime);
+
+      fadeImage[i].color = new Color(fadeImage[i].color.r, fadeImage[i].color.g, fadeImage[i].color.b, currentAlphas[i]);
+    }
+
+    if (targetAlphas[0] == 1.0f && currentAlphas[0] >= targetAlphas[0]) {
+      imageFaded = true;
+      startFade = false;
+    } else if (targetAlphas[0] == 0.0f && currentAlphas[0] <= targetAlphas[0]) {
+      imageFaded = true;
+      startFade = false;
+    }
+  }
+
+  // What image is being faded, whether it's fading in or out
+  public void SetFadeImage(Image image, float alpha) {
+    if (image != null) {
+      fadeImage.Add(image);
+      currentAlphas.Add(image.color.a);
+    } else {
+      fadeImage.Add(sceneTransition);
+      currentAlphas.Add(sceneTransition.color.a);
+    }
+
+    targetAlphas.Add(alpha);
   }
 }
