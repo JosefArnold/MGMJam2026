@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour {
 
   [Header("Swapping Menus")]
-  [SerializeField] private EventSystem eventSystem;
-  [SerializeField] private Selectable[] elementsToSwapTo;
+  [SerializeField] protected EventSystem eventSystem;
+  [SerializeField] protected Selectable[] elementsToSwapTo;
   [SerializeField] private bool disableOnSwitch;
 
   // Called when script is dragged onto object in the Editor

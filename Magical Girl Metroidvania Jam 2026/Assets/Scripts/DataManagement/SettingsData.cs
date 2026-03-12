@@ -4,9 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SettingsData", menuName = "Scriptable Objects/SettingsData")]
 public class SettingsData : ScriptableObject {
 
-  private float masterVolume;
-  private float musicVolume;
-  private float sfxVolume;
+  private float masterVolume = 1.0f;
+  private float musicVolume = 1.0f;
+  private float sfxVolume = 1.0f;
 
   public void SetMasterVolume(float volume) {
     masterVolume = volume;

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class SaveManager : MonoBehaviour {
   public static SaveManager ptr;
 
   [SerializeField] public SettingsData settings;
+
+  private bool spawnedAtSavePoint;
 
   private void Awake() {
     if (ptr != null) {
@@ -20,6 +23,8 @@ public class SaveManager : MonoBehaviour {
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
+    StartMenuLoad();
+
     DontDestroyOnLoad(gameObject);
     SceneManager.sceneLoaded += Load;
     SceneManager.sceneLoaded += AutoSave;
@@ -37,13 +42,18 @@ public class SaveManager : MonoBehaviour {
   private SaveFile UpdateSaveFile(int index, Player p) {
     SaveFile save = new SaveFile();
 
+    save.playerHealth = p.GetHealth();
     save.playerAbilities = p.GetAbilities();
+
+    save.roomsSeen = GameManager.ptr.GetSeenRooms();
 
     save.sceneName = SceneManager.GetActiveScene().name;
 
     save.savePointIndex = index;
 
-    save.settings = settings;
+    save.settings[0] = settings.GetMasterVolume();
+    save.settings[1] = settings.GetMusicVolume();
+    save.settings[2] = settings.GetSFXVolume();
 
     return save;
   }
@@ -59,8 +69,28 @@ public class SaveManager : MonoBehaviour {
 
   }
 
+  public void BeginningSceneSaveFile() {
+    SaveFile save = new SaveFile();
+    BinaryFormatter bf = new BinaryFormatter();
+
+    //Convert the save file to a Save object so we can access the information on it
+    FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+    save = (SaveFile) bf.Deserialize(file);
+
+    save.settings[0] = settings.GetMasterVolume();
+    save.settings[1] = settings.GetMusicVolume();
+    save.settings[2] = settings.GetSFXVolume();
+
+    file.Close();
+
+    FileStream fileSave = File.Create(Application.persistentDataPath + "/gamesave.save");
+    bf.Serialize(fileSave, save);
+    fileSave.Close();
+  }
+
   public void AutoSave(Scene scene, LoadSceneMode mode) {
-    Save(0, GameObject.Find("Player").GetComponent<Player>());
+    if (!spawnedAtSavePoint)
+      Save(0, GameManager.ptr.p);
   }
 
   public void Load(Scene scene, LoadSceneMode mode) {
@@ -71,21 +101,46 @@ public class SaveManager : MonoBehaviour {
       SaveFile save = (SaveFile)bf.Deserialize(file);
       file.Close();
 
-      settings = save.settings;
+      spawnedAtSavePoint = save.savePointIndex == 0 ? false : true;
+
+      settings.SetMasterVolume(save.settings[0]);
+      settings.SetMusicVolume(save.settings[1]);
+      settings.SetSFXVolume(save.settings[2]);
 
       Player p = GameObject.Find("Player").GetComponent<Player>();
 
       p.SetAbilities(save.playerAbilities);
 
-      p.gameObject.transform.position = GameManager.ptr.GetSavePoint(save.savePointIndex).position;
+      if (!SceneManager.GetActiveScene().name.Equals("BeginningArea"))
+        p.gameObject.transform.position = GameManager.ptr.GetSavePoint(save.savePointIndex).position;
+      else
+        GameManager.ptr.nextScene = save.sceneName;
 
-      Debug.Log(save.savePointIndex);
+      GameManager.ptr.SetSeenRooms(-1, save.roomsSeen);
     }
   }
 
   public void WipeSave() {
     if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
       File.Delete(Application.persistentDataPath + "/gamesave.save");
+  }
+
+  private void StartMenuLoad() {
+    if (File.Exists(Application.persistentDataPath + "/gamesave.save")) {
+      Debug.Log(Application.persistentDataPath + "/gamesave.save");
+      //Convert the save file to a Save object so we can access the information on it
+      BinaryFormatter bf = new BinaryFormatter();
+      FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+      SaveFile save = (SaveFile)bf.Deserialize(file);
+      file.Close();
+
+      settings.SetMasterVolume(save.settings[0]);
+      settings.SetMusicVolume(save.settings[1]);
+      settings.SetSFXVolume(save.settings[2]);
+
+      GameManager.ptr.nextScene = save.sceneName;
+    } else
+      GameObject.Find("StartMenu").GetComponent<StartMenu>().NoLoadedGame();
   }
 
 }

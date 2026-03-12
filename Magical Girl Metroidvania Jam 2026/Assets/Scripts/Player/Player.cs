@@ -289,4 +289,12 @@ public class Player : Destructible, Controls.IPlayerActions {
       controls.Disable();
   }
 
+  public void SetHealth(int h) {
+    health = h;
+  }
+
+  public int GetHealth() {
+    return health;
+  }
+
 }

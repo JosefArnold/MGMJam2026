@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SaveFile {
 
+  public int playerHealth;
+
   public bool[] playerAbilities = new bool[5];
 
   public bool[] roomsSeen;
@@ -12,6 +14,6 @@ public class SaveFile {
 
   public int savePointIndex;
 
-  public SettingsData settings;
+  public float[] settings = new float[3];
 
 }

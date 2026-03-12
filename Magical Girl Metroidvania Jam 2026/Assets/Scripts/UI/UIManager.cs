@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
@@ -7,15 +9,17 @@ public class UIManager : MonoBehaviour {
   public static UIManager ptr;
 
   //Object references
+  [SerializeField] private EventSystem eventSystem;
   [SerializeField] private Player p;
 
   //UI Elements
   [SerializeField] private GameObject[] UIGroups;
   [SerializeField] private Image sceneTransition; // The black image used to fade in and out of scenes
-  [SerializeField] private GameObject pauseMenu;
+  [SerializeField] private GameObject pauseBtn;
 
   //Variables
   private bool paused = false;
+  private bool newGameStarted;
 
   //Fade stuff
   private List<Image> fadeImage = new List<Image>(); // The image that's supposed to fade
@@ -27,6 +31,14 @@ public class UIManager : MonoBehaviour {
   // Event for when an image finishes fading
   public delegate void FinishedFade();
   public FinishedFade onFade;
+
+  // Called when script is dragged onto object in the Editor
+  private void Reset() {
+    eventSystem = FindFirstObjectByType<EventSystem>();
+
+    if (eventSystem == null)
+      Debug.Log("There's no event system, the fuck did you do? Get one in here ya little shit");
+  }
 
   private void Awake() {
     ptr = this;
@@ -53,7 +65,9 @@ public class UIManager : MonoBehaviour {
 
       if (fadeImage[0] == sceneTransition && targetAlphas[0] == 0.0f) {
         ToggleElement(0);
-        p.ToggleControls(true);
+
+        if (!SceneManager.GetActiveScene().name.Equals("BeginningArea"))
+          p.ToggleControls(true);
       }
 
       fadeImage.Clear();
@@ -71,7 +85,10 @@ public class UIManager : MonoBehaviour {
   public void Pause() {
     paused = !paused;
 
-    pauseMenu.SetActive(paused);
+    if (paused)
+      eventSystem.SetSelectedGameObject(pauseBtn);
+
+    ToggleElement(1);
 
     if (paused)
       Time.timeScale = 0.0f;
@@ -109,5 +126,13 @@ public class UIManager : MonoBehaviour {
     }
 
     targetAlphas.Add(alpha);
+  }
+
+  public void NewGame() {
+    newGameStarted = true;
+  }
+
+  public bool CheckNewGame() {
+    return newGameStarted;
   }
 }

@@ -29,6 +29,7 @@ public class Room : MonoBehaviour {
         cam.LockPosition(lockCamera, minBound);
 
       RoomManager.ptr.UpdateRooms(roomIndices);
+      GameManager.ptr.SetSeenRooms(roomIndices[0], null);
     }
   }
 }

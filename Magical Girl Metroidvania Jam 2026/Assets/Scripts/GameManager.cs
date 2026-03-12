@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
 
   public string nextScene; // Name of the next scene to load
 
-  [SerializeField] private Player p;
+  private bool[] roomsSeen;
+
+  [SerializeField] public Player p;
 
   private void Awake() {
     ptr = this;
@@ -28,6 +30,7 @@ public class GameManager : MonoBehaviour {
   public void PrepSceneTransition(string scene) {
     nextScene = scene;
     p.ToggleControls(false);
+    MusicManager.ptr.StartFade(2.0f, false);
     UIManager.ptr.onFade += ChangeScene;
     UIManager.ptr.ToggleElement(0);
     UIManager.ptr.SetFadeImage(null, 1.0f);
@@ -48,6 +51,17 @@ public class GameManager : MonoBehaviour {
 
   public Transform GetSavePoint(int index) {
     return savePoints[index];
+  }
+
+  public void SetSeenRooms(int index, bool[] b) {
+    if (index != -1)
+      roomsSeen[index] = true;
+    else
+      roomsSeen = b;
+  }
+
+  public bool[] GetSeenRooms() {
+    return roomsSeen;
   }
 
 }
