@@ -113,8 +113,10 @@ public class SaveManager : MonoBehaviour {
 
       if (!SceneManager.GetActiveScene().name.Equals("BeginningArea"))
         p.gameObject.transform.position = GameManager.ptr.GetSavePoint(save.savePointIndex).position;
-      else
+      else {
+        LevelHUD.ptr.ToggleHealth(false);
         GameManager.ptr.nextScene = save.sceneName;
+      }
 
       GameManager.ptr.SetSeenRooms(-1, save.roomsSeen);
     }
@@ -141,6 +143,8 @@ public class SaveManager : MonoBehaviour {
       GameManager.ptr.nextScene = save.sceneName;
     } else
       GameObject.Find("StartMenu").GetComponent<StartMenu>().NoLoadedGame();
+
+    LevelHUD.ptr.ToggleHealth(false);
   }
 
 }

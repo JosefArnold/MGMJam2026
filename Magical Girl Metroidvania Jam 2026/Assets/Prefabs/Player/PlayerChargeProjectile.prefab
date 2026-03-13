@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTag: Enemy
-  damage: 20
+  damage: 10
   continuousDamage: 0
   projectile: 1
   projectileSpeed: 25

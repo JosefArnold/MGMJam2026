@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 404.5
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -93,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -121,10 +121,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_0
       rect:
         serializedVersion: 2
-        x: 149
-        y: 14
-        width: 555
-        height: 754
+        x: 0
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,10 +143,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_1
       rect:
         serializedVersion: 2
-        x: 1057
-        y: 14
-        width: 360
-        height: 756
+        x: 809
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,10 +165,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_2
       rect:
         serializedVersion: 2
-        x: 1838
-        y: 18
-        width: 513
-        height: 752
+        x: 1618
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,10 +187,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_3
       rect:
         serializedVersion: 2
-        x: 2646
-        y: 14
-        width: 548
-        height: 757
+        x: 2427
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,10 +209,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_4
       rect:
         serializedVersion: 2
-        x: 3533
-        y: 13
-        width: 376
-        height: 756
+        x: 3236
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,10 +231,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_5
       rect:
         serializedVersion: 2
-        x: 4308
-        y: 16
-        width: 489
-        height: 755
+        x: 4045
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,10 +253,10 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_6
       rect:
         serializedVersion: 2
-        x: 5100
-        y: 15
-        width: 555
-        height: 754
+        x: 4854
+        y: 17
+        width: 809
+        height: 809
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f75774a0a00276746aa483ff3bb895b6
     internalID: 0
     vertices: []
     indices: 

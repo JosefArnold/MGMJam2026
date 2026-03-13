@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+  [SerializeField] private Camera cam;
   [SerializeField] private float smooth;
   [SerializeField] private int cameraMovementRange;
   [SerializeField] private bool cam2D;
+
+  private float defaultFOV;
+  private float targetFOV;
 
   private Vector3 target;
 
@@ -24,6 +28,8 @@ public class CameraController : MonoBehaviour {
 
     target = new Vector3(playerPos.position.x, playerPos.position.y, cam2D ? transform.position.z : playerPos.position.z);
 
+    defaultFOV = cam.fieldOfView;
+
     //TEMP
     minPos = new Vector3(-1, 1.0f, -10);
     maxPos = new Vector3(100, 100, -10);
@@ -40,12 +46,23 @@ public class CameraController : MonoBehaviour {
 
       transform.position = Vector3.Lerp(transform.position, targetPos, smooth);
     }
+
+    if (targetFOV != 0 && cam.fieldOfView != targetFOV) {
+      cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, smooth);
+    }
   }
 
   public void SetBounds(Vector3 min, Vector3 max) {
     lockPosition = false;
     minPos = min;
     maxPos = max;
+  }
+
+  public void SetFOV(float newFOV) {
+    if (newFOV != 0)
+      targetFOV = newFOV;
+    else
+      targetFOV = defaultFOV;
   }
 
   public void SetTarget(Vector3 playerTarget, Vector3 input) {

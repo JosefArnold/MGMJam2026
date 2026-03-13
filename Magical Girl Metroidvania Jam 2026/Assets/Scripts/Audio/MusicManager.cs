@@ -20,7 +20,7 @@ public class MusicManager : MonoBehaviour {
   void Start() {
     defaultVolume = audioSource.volume;
     audioSource.volume = SaveManager.ptr.settings.GetMusicVolume() * SaveManager.ptr.settings.GetMasterVolume() * defaultVolume;
-    DelayPlayTrack(0.8f);
+    DelayPlayTrack(1.0f);
   }
 
   // Update is called once per frame

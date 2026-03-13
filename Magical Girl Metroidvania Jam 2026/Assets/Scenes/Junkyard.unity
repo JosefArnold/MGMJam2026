@@ -930,6 +930,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447b88a82f6210b4c83f88dd1c33944b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: []
+  abilityCooldowns: []
+  healthSprites: []
 --- !u!1 &455791830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,6 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8075f9ffa6a4f6640ab7dffe81fba636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 808722846}
   smooth: 0.01
   cameraMovementRange: 3
   cam2D: 1
@@ -4465,12 +4469,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098293fe69a34d04bbc78a4da0a02d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
   p: {fileID: 967186677}
   UIGroups:
   - {fileID: 334989554}
   - {fileID: 1860202921}
   sceneTransition: {fileID: 334989555}
-  pauseMenu: {fileID: 1860202921}
+  pauseBtn: {fileID: 0}
 --- !u!114 &2047170402
 MonoBehaviour:
   m_ObjectHideFlags: 0

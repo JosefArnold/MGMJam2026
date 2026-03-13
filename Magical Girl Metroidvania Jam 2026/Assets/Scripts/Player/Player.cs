@@ -72,8 +72,8 @@ public class Player : Destructible, Controls.IPlayerActions {
   void Start() {
     health = maxHealth;
     rb = GetComponent<Rigidbody2D>();
-    //anim = GetComponent<Animator>();
-    //sr = GetComponent<SpriteRenderer>();
+    anim = GetComponent<Animator>();
+    sr = GetComponent<SpriteRenderer>();
 
     flightMeter = flightDuration;
   }
@@ -89,13 +89,16 @@ public class Player : Destructible, Controls.IPlayerActions {
     if (holdingFlight && !IsGrounded() && flightMeter > 0.0f) {
       flightMeter -= Time.deltaTime;
       rb.linearVelocityY = flightSpeed;
+      LevelHUD.ptr.UpdateUIMeters(0, flightMeter);
     }
 
     if (projectileCharging && chargeTime < projectileChargeTime)
       chargeTime += Time.deltaTime;
 
-    if (flashCooldown > 0.0f)
+    if (flashCooldown > 0.0f) {
       flashCooldown -= Time.deltaTime;
+      LevelHUD.ptr.UpdateUIMeters(1, -flashCooldown);
+    }
   }
 
   public void CameraRef(CameraController c) {
@@ -111,8 +114,11 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   private void OnCollisionEnter2D(Collision2D collision) {
     if (collision != null && collision.gameObject.CompareTag("Ground"))
-      if (IsGrounded())
+      if (IsGrounded()) {
         flightMeter = flightDuration;
+        LevelHUD.ptr.UpdateUIMeters(0, flightDuration);
+        LevelHUD.ptr.ToggleUISlider(0, false);
+      }
   }
 
   // This is just so we can see the raycast in the Editor if we wanna make edits
@@ -131,8 +137,10 @@ public class Player : Destructible, Controls.IPlayerActions {
   public void OnMove(InputAction.CallbackContext ctx) {
     moveValue = ctx.ReadValue<Vector2>();
 
-    if (moveValue.x != 0) 
+    if (moveValue.x != 0) {
       facingDirection = moveValue.x;
+      sr.flipX = facingDirection == -1.0f ? true : false;
+    }
 
     if (ctx.canceled)
       Debug.Log("Check");
@@ -147,12 +155,15 @@ public class Player : Destructible, Controls.IPlayerActions {
     if (abilities[0] && ctx.performed) {
       if (IsGrounded()) {
         rb.linearVelocityY = jumpHeight;
-      } else if (abilities[4])
+      } else if (abilities[4]) {
         holdingFlight = true;
+        LevelHUD.ptr.ToggleUISlider(0, true);
+      }
     }
 
     if (ctx.canceled && !IsGrounded()) {
       holdingFlight = false;
+      LevelHUD.ptr.ToggleUISlider(0, false);
 
       if (rb.linearVelocityY > 0)
         rb.linearVelocityY = rb.linearVelocityY / 2;
@@ -242,6 +253,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   private void Flashbang() {
     flashbang.SetActive(true);
+    LevelHUD.ptr.UpdateUIMeters(1, -flashbangCooldown);
 
     rb.gravityScale = 3.5f;
     controls.Enable();
@@ -250,6 +262,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   protected override void DamageEffect() {
     ToggleIFrames();
     Invoke("ToggleIFrames", 0.5f);
+    LevelHUD.ptr.UpdateHealth(health);
   }
 
   private void ToggleIFrames() {
@@ -257,6 +270,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   protected override void Death() {
+    LevelHUD.ptr.UpdateHealth(health);
     controls.Disable();
     //Destroy(gameObject);
   }
@@ -272,10 +286,16 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void ToggleAbility(int index) {
     abilities[index] = !abilities[index];
+
+    if (abilities[5])
+      LevelHUD.ptr.ToggleUISlider(1, true);
   }
 
   public void SetAbilities(bool[] b) {
     abilities = b;
+
+    if (abilities[5])
+      LevelHUD.ptr.ToggleUISlider(1, true);
   }
 
   public bool[] GetAbilities() {
@@ -291,6 +311,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void SetHealth(int h) {
     health = h;
+    LevelHUD.ptr.UpdateHealth(health);
   }
 
   public int GetHealth() {
