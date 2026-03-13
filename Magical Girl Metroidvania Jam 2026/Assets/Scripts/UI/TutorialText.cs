@@ -12,6 +12,6 @@ public class TutorialText : MonoBehaviour {
   }
 
   private void SelfDestruct() {
-    Destroy(gameObject);
+    Destroy(transform.parent.gameObject);
   }
 }

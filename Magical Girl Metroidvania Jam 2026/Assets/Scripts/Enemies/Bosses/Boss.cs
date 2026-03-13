@@ -26,7 +26,7 @@ public class Boss : Destructible {
     int index = lastAttack;
 
     while (index == lastAttack)
-      index = Random.Range(1, 3);
+      index = Random.Range(1, 4);
 
     anim.SetTrigger("Attack" + index);
     lastAttack = index;

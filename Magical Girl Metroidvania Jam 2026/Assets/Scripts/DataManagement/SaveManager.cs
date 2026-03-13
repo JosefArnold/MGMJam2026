@@ -51,6 +51,8 @@ public class SaveManager : MonoBehaviour {
 
     save.savePointIndex = index;
 
+    Debug.Log("Save Point Index at Save: " + save.savePointIndex);
+
     save.settings[0] = settings.GetMasterVolume();
     save.settings[1] = settings.GetMusicVolume();
     save.settings[2] = settings.GetSFXVolume();
@@ -111,9 +113,11 @@ public class SaveManager : MonoBehaviour {
 
       p.SetAbilities(save.playerAbilities);
 
-      if (!SceneManager.GetActiveScene().name.Equals("BeginningArea"))
+      if (!SceneManager.GetActiveScene().name.Equals("BeginningArea")) {
         p.gameObject.transform.position = GameManager.ptr.GetSavePoint(save.savePointIndex).position;
-      else {
+        Debug.Log("Save Point Index: " + save.savePointIndex);
+        Debug.Log(GameManager.ptr.GetSavePoint(save.savePointIndex).position);
+      } else {
         LevelHUD.ptr.ToggleHealth(false);
         GameManager.ptr.nextScene = save.sceneName;
       }

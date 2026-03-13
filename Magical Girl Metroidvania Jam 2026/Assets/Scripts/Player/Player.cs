@@ -138,12 +138,9 @@ public class Player : Destructible, Controls.IPlayerActions {
     moveValue = ctx.ReadValue<Vector2>();
 
     if (moveValue.x != 0) {
-      facingDirection = moveValue.x;
+      facingDirection = moveValue.x < 0 ? -1.0f : 1.0f;
       sr.flipX = facingDirection == -1.0f ? true : false;
     }
-
-    if (ctx.canceled)
-      Debug.Log("Check");
   }
 
   public void OnInteract(InputAction.CallbackContext ctx) {
@@ -159,6 +156,7 @@ public class Player : Destructible, Controls.IPlayerActions {
         holdingFlight = true;
         LevelHUD.ptr.ToggleUISlider(0, true);
       }
+      Debug.Log("Testing this little shit");
     }
 
     if (ctx.canceled && !IsGrounded()) {
@@ -284,8 +282,8 @@ public class Player : Destructible, Controls.IPlayerActions {
       interactableInRange = true;
   }
 
-  public void ToggleAbility(int index) {
-    abilities[index] = !abilities[index];
+  public void ToggleAbility(int index, bool b) {
+    abilities[index] = b;
 
     if (abilities[5])
       LevelHUD.ptr.ToggleUISlider(1, true);
