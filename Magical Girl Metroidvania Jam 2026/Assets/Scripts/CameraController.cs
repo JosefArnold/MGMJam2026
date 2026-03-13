@@ -31,8 +31,8 @@ public class CameraController : MonoBehaviour {
     defaultFOV = cam.fieldOfView;
 
     //TEMP
-    minPos = new Vector3(-1, 1.0f, -10);
-    maxPos = new Vector3(100, 100, -10);
+    //minPos = new Vector3(-1, 1.0f, -10);
+    //maxPos = new Vector3(100, 100, -10);
   }
 
   // Update is called once per frame
@@ -40,9 +40,9 @@ public class CameraController : MonoBehaviour {
     if (transform.position != target) {
       Vector3 targetPos = new Vector3(target.x, target.y, target.z);
 
-      targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
-      targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
-      targetPos.z = Mathf.Clamp(targetPos.z, minPos.z, maxPos.z);
+      //targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
+      //targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
+      //targetPos.z = Mathf.Clamp(targetPos.z, minPos.z, maxPos.z);
 
       transform.position = Vector3.Lerp(transform.position, targetPos, smooth);
     }
