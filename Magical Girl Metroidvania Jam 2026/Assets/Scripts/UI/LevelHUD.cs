@@ -7,6 +7,7 @@ public class LevelHUD : MonoBehaviour {
 
   [Header("UI Elements")]
   [SerializeField] private GameObject healthBar;
+  [SerializeField] private Slider bossHealth;
   [SerializeField] private Image[] health;
   [SerializeField] private Slider[] abilityCooldowns;
 
@@ -50,5 +51,9 @@ public class LevelHUD : MonoBehaviour {
 
   public void UpdateUIMeters(int index, float f) {
     abilityCooldowns[index].value = Mathf.Clamp(f, abilityCooldowns[index].minValue, abilityCooldowns[index].maxValue);
+  }
+
+  public void UpdateBossHealth(int currentHealth) {
+    bossHealth.value = currentHealth;
   }
 }
