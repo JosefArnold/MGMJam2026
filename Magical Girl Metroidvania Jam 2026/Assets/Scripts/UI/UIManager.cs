@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour {
     fadeImage.Add(sceneTransition);
     currentAlphas.Add(1.0f);
     targetAlphas.Add(0.0f);
-    Invoke(nameof(Fade), 0.25f);
+    Invoke(nameof(Fade), 0.5f);
   }
 
   // Update is called once per frame

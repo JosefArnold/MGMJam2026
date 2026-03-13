@@ -44,8 +44,8 @@ public class Enemy : Destructible {
 
   private void Start() {
     rb = transform.parent.GetComponent<Rigidbody2D>();
-    //anim = GetComponent<Animator>();
-    //sr = GetComponent<SpriteRenderer>();
+    anim = GetComponent<Animator>();
+    sr = GetComponent<SpriteRenderer>();
 
     health = maxHealth;
 
@@ -148,6 +148,7 @@ public class Enemy : Destructible {
         foreach (Transform t in triggers) {
           t.localScale = new Vector3(direction, t.localScale.y, t.localScale.z);
         }
+        sr.flipX = direction == -1.0f ? true : false;
       }
     }
   }
