@@ -17,6 +17,9 @@ public class Player : Destructible, Controls.IPlayerActions {
   [SerializeField] private float dashDistance;
   [SerializeField] private float dashCooldown;
   [SerializeField] private float flashbangCooldown;
+  [SerializeField] GameObject aimObj;
+  [SerializeField] SpriteRenderer aimSprite;
+  [SerializeField] Animator aimAnim;
   [SerializeField] GameObject basicProjectile;
   [SerializeField] GameObject chargeBlast;
   [SerializeField] GameObject flashbang;
@@ -31,7 +34,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   private Vector2 dashTarget;
   private float facingDirection = 1;
   private bool projectileCharging;
-  private float chargeTime;
+  private float chargeTime = 0.0f;
 
   // 0: Jump
   // 1: Attack
@@ -108,6 +111,7 @@ public class Player : Destructible, Controls.IPlayerActions {
     }
 
     anim.SetFloat("xSpeed", Mathf.Abs(rb.linearVelocityX));
+    aimAnim.SetFloat("TimeCharged", chargeTime);
   }
 
   public bool IsGrounded() {
@@ -154,6 +158,14 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void ResetAttack() {
     anim.ResetTrigger("Attacking");
+  }
+
+  private void ResetShoot() {
+    aimAnim.ResetTrigger("Pressed");
+  }
+
+  private void ResetFired() {
+    aimAnim.ResetTrigger("Fired");
   }
 
   /********* Player Input Controls ************/
@@ -220,15 +232,31 @@ public class Player : Destructible, Controls.IPlayerActions {
     Vector3 playerPos = gameObject.transform.position;
 
     if (lookValue != Vector2.zero)
-      projectileSpawnPoint = new Vector2(playerPos.x + (lookValue.x * 1.25f), playerPos.y + (lookValue.y * 1.25f));
+      projectileSpawnPoint = new Vector2((playerPos.x + (lookValue.x * 1.25f)), playerPos.y + (lookValue.y * 1.25f));
     else
-      projectileSpawnPoint = new Vector2(playerPos.x + ( moveValue.y == 0 ? (facingDirection * 1.25f) : 0.0f), playerPos.y + (moveValue.y * 1.25f));
+      projectileSpawnPoint = new Vector2(playerPos.x + ( (moveValue.y <= 0  || moveValue.x != 0) ? (facingDirection * 1.25f) : 0.0f),
+        playerPos.y + (moveValue.y * 1.25f));
+
+    aimSprite.flipX = facingDirection == -1.0f ? true : false;
+
+    float zRot = 0.0f;
+
+    if (moveValue.y > 0.0f || lookValue.y > 0.0f) {
+      zRot = (moveValue.x != 0.0f || lookValue.x != 0.0f) ? 45.0f : 90.0f;
+    } else if (moveValue.y < 0.0f || lookValue.y < 0.0f)
+      zRot = -45f;
+
+    zRot = aimSprite.flipX ? -zRot : zRot;
+
+    Vector3 aimRot = new Vector3(0.0f, 0.0f, zRot);
+
+    aimObj.transform.localEulerAngles = aimRot;
   }
 
   private void MoveCameraFocusPoint() {
     if (lookValue != Vector2.zero)
       cam.SetTarget(gameObject.transform.position, lookValue);
-    else
+    else 
       cam.SetTarget(gameObject.transform.position, moveValue / 2);
   }
 
@@ -237,11 +265,21 @@ public class Player : Destructible, Controls.IPlayerActions {
       Vector2 projAngle = new Vector2((moveValue.y > 0 && moveValue.x == 0) ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
         moveValue.y); // If the player is aiming up
 
+      aimAnim.SetTrigger("Pressed");
+      Invoke("ResetShoot", 0.05f);
+
       projAngle.Normalize();
 
-      Quaternion projRot = new Quaternion(0.0f, 0.0f, Vector2.SignedAngle(gameObject.transform.position, projectileSpawnPoint), 0.0f);
+      /*
+      float zRot = 0.0f;
 
-      GameObject proj = Instantiate(basicProjectile, projectileSpawnPoint, projRot);
+      if (projectileSpawnPoint.y > 0)
+        zRot = projectileSpawnPoint.x > 0 ? 45.0f : 90.0f;
+
+      Quaternion projRot = new Quaternion(0.0f, 0.0f, zRot, 0.0f);
+      */
+
+      GameObject proj = Instantiate(basicProjectile, projectileSpawnPoint, Quaternion.identity);
 
       proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
 
@@ -256,15 +294,22 @@ public class Player : Destructible, Controls.IPlayerActions {
 
         projAngle.Normalize();
 
+        /*
         Quaternion projRot = new Quaternion(0.0f, 0.0f, Vector2.SignedAngle(gameObject.transform.position, projectileSpawnPoint), 0.0f);
+        */
 
-        GameObject proj = Instantiate(chargeBlast, projectileSpawnPoint, projRot);
+        GameObject proj = Instantiate(chargeBlast, projectileSpawnPoint, Quaternion.identity);
 
         proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
       }
 
       projectileCharging = false;
       chargeTime = 0.0f;
+    }
+
+    if (ctx.canceled) {
+      aimAnim.SetTrigger("Fired");
+      Invoke("ResetFired", 0.05f);
     }
   }
 

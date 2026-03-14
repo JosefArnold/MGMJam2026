@@ -1200,10 +1200,10 @@ TextureImporter:
       name: player sprite sheet_46
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1536
-        width: 256
-        height: 256
+        x: 19
+        y: 1514
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1222,10 +1222,10 @@ TextureImporter:
       name: player sprite sheet_47
       rect:
         serializedVersion: 2
-        x: 256
-        y: 1536
-        width: 256
-        height: 256
+        x: 275
+        y: 1514
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1244,10 +1244,10 @@ TextureImporter:
       name: player sprite sheet_48
       rect:
         serializedVersion: 2
-        x: 512
-        y: 1536
-        width: 256
-        height: 256
+        x: 531
+        y: 1514
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1266,10 +1266,10 @@ TextureImporter:
       name: player sprite sheet_49
       rect:
         serializedVersion: 2
-        x: 768
-        y: 1536
-        width: 256
-        height: 256
+        x: 787
+        y: 1514
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1288,10 +1288,10 @@ TextureImporter:
       name: player sprite sheet_50
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 1536
-        width: 256
-        height: 256
+        x: 1043
+        y: 1514
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1442,10 +1442,10 @@ TextureImporter:
       name: player sprite sheet_63
       rect:
         serializedVersion: 2
-        x: 0
-        y: 768
-        width: 256
-        height: 256
+        x: 19
+        y: 746
+        width: 236
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -22,13 +22,16 @@ public class Attack : MonoBehaviour {
   private Vector2 projectileDirection;
   private int hits;
 
+  Rigidbody2D rb;
   SpriteRenderer sr;
+  Animator anim;
+  BoxCollider2D boxCollider;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
 
     if (lifespan > 0)
-      StartCoroutine(DestroyProjectile());
+      StartCoroutine(ProjectileEndAnim());
 
   }
 
@@ -45,13 +48,15 @@ public class Attack : MonoBehaviour {
 
         hits++;
 
-        Debug.Log(hits);
-
         if (projectile && hits >= destroyAfterHits) {
-          Destroy(gameObject);
+          rb.linearVelocity = Vector2.zero;
+          boxCollider.enabled = false;
+          anim.SetTrigger("Destroy");
         }
       } else if (projectile && !collision.gameObject.CompareTag("Player") && !pierceWalls) {
-        Destroy(gameObject);
+        rb.linearVelocity = Vector2.zero;
+        boxCollider.enabled = false;
+        anim.SetTrigger("Destroy");
       }
 
     }
@@ -65,17 +70,24 @@ public class Attack : MonoBehaviour {
   }
 
   public void SetProjectileDirection(Vector2 projDir) {
-    Rigidbody2D rb = GetComponent<Rigidbody2D>();
+    rb = GetComponent<Rigidbody2D>();
     rb.linearVelocity = projDir * projectileSpeed;
 
     sr = GetComponent<SpriteRenderer>();
+    anim = GetComponent<Animator>();
+    boxCollider = GetComponent<BoxCollider2D>();
 
     sr.flipX = rb.linearVelocityX > 0 ? false : true;
   }
 
-  IEnumerator DestroyProjectile() {
+  IEnumerator ProjectileEndAnim() {
     yield return new WaitForSeconds(lifespan);
+    rb.linearVelocity = Vector2.zero;
+    boxCollider.enabled = false;
+    anim.SetTrigger("Destroy");
+  }
 
+  public void DestroyProjectile() {
     Destroy(gameObject);
   }
 }
