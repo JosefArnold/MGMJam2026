@@ -24,6 +24,8 @@ public class Enemy : Destructible {
   [Header("Enemy Pathing")]
   [SerializeField] private GameObject[] pathMarkers;
   [SerializeField] private bool showPath; // This is just to toggle the editor visuals of the path on or off so it doesn't clutter the screen
+  [SerializeField] private Transform[] leashMarkers;
+  [SerializeField] private bool showBounds;
   private int currentMarker;
   private Vector2 velocity;
 

@@ -22,6 +22,8 @@ public class Attack : MonoBehaviour {
   private Vector2 projectileDirection;
   private int hits;
 
+  SpriteRenderer sr;
+
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
 
@@ -63,7 +65,12 @@ public class Attack : MonoBehaviour {
   }
 
   public void SetProjectileDirection(Vector2 projDir) {
-    gameObject.GetComponent<Rigidbody2D>().linearVelocity = projDir * projectileSpeed;
+    Rigidbody2D rb = GetComponent<Rigidbody2D>();
+    rb.linearVelocity = projDir * projectileSpeed;
+
+    sr = GetComponent<SpriteRenderer>();
+
+    sr.flipX = rb.linearVelocityX > 0 ? false : true;
   }
 
   IEnumerator DestroyProjectile() {

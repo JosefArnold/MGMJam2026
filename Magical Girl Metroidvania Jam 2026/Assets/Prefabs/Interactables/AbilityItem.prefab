@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5635336521309205051}
   - component: {fileID: 6949037664806704574}
   - component: {fileID: 1016212336983613999}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TutorialText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5592339370846786110}
   - component: {fileID: 4754595245274509572}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 3997008697871969947}
   - component: {fileID: 8715027509200277827}
   - component: {fileID: 7820040406451739114}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AbilityScript
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4183234752946045593}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AbilityItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

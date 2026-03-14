@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 23304319387751433}
   - component: {fileID: 8203453130289640038}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4165204621283949333}
   - component: {fileID: 4642407011163598911}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CrayonSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 6732279748930226372}
   - component: {fileID: 2358121191081950481}
   - component: {fileID: 218647204640741883}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SavePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

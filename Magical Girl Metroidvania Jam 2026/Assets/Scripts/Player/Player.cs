@@ -221,10 +221,8 @@ public class Player : Destructible, Controls.IPlayerActions {
 
     if (lookValue != Vector2.zero)
       projectileSpawnPoint = new Vector2(playerPos.x + (lookValue.x * 1.25f), playerPos.y + (lookValue.y * 1.25f));
-    /*else if (moveValue != Vector2.zero) 
-      projectileSpawnPoint = new Vector2(playerPos.x + moveValue.x, playerPos.y + moveValue.y);*/
     else
-      projectileSpawnPoint = new Vector2(playerPos.x + (facingDirection * 1.25f), playerPos.y + (moveValue.y * 1.25f));
+      projectileSpawnPoint = new Vector2(playerPos.x + ( moveValue.y == 0 ? (facingDirection * 1.25f) : 0.0f), playerPos.y + (moveValue.y * 1.25f));
   }
 
   private void MoveCameraFocusPoint() {
@@ -236,8 +234,8 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void OnShoot(InputAction.CallbackContext ctx) {
     if (abilities[2] && ctx.performed) {
-      Vector2 projAngle = new Vector2(moveValue.y > 0 && moveValue.x == 0 ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
-        moveValue.y > 0 ? moveValue.y : 0.0f); // If the player is aiming up
+      Vector2 projAngle = new Vector2((moveValue.y > 0 && moveValue.x == 0) ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
+        moveValue.y); // If the player is aiming up
 
       projAngle.Normalize();
 
@@ -253,8 +251,8 @@ public class Player : Destructible, Controls.IPlayerActions {
 
     if (ctx.canceled && abilities[3]) {
       if (chargeTime >= projectileChargeTime) {
-        Vector2 projAngle = new Vector2(moveValue.y > 0 && moveValue.x == 0 ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
-        moveValue.y > 0 ? moveValue.y : 0.0f); // If the player is aiming up
+        Vector2 projAngle = new Vector2((moveValue.y > 0 && moveValue.x == 0) ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
+        moveValue.y);
 
         projAngle.Normalize();
 

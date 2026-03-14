@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Barrier
   - Projectile
+  - InteractionObj
   layers:
   - Default
   - TransparentFX
