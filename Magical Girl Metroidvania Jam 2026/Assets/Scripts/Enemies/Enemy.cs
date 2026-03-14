@@ -44,10 +44,12 @@ public class Enemy : Destructible {
 
   private void Start() {
     rb = transform.parent.GetComponent<Rigidbody2D>();
-    anim = GetComponent<Animator>();
+    anim = transform.parent.GetComponent<Animator>();
     sr = GetComponent<SpriteRenderer>();
 
     health = maxHealth;
+
+    anim.SetBool("Flying", flying);
 
     if (flying)
       rb.bodyType = RigidbodyType2D.Kinematic;
@@ -185,7 +187,13 @@ public class Enemy : Destructible {
   }
 
   protected override void DamageEffect() {
-    
+    StartCoroutine(DamageFlash());
+  }
+
+  IEnumerator DamageFlash() {
+    sr.color = new Color(1.0f, 0.41f, 0.41f);
+    yield return new WaitForSeconds(0.5f);
+    sr.color = Color.white;
   }
 
   protected override void Death() {

@@ -43,7 +43,7 @@ public class Boss : Destructible {
   IEnumerator DamageFlash() {
 
     foreach (SpriteRenderer s in sr)
-      s.color = Color.red;
+      s.color = new Color(1.0f, 0.41f, 0.41f);
 
     yield return new WaitForSeconds(0.5f);
 

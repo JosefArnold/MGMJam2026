@@ -694,10 +694,10 @@ TextureImporter:
       name: player sprite sheet_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2560
-        width: 256
-        height: 256
+        x: 3
+        y: 2563
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -716,10 +716,10 @@ TextureImporter:
       name: player sprite sheet_11
       rect:
         serializedVersion: 2
-        x: 256
-        y: 2560
-        width: 256
-        height: 256
+        x: 259
+        y: 2563
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -848,10 +848,10 @@ TextureImporter:
       name: player sprite sheet_22
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 2048
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -870,10 +870,10 @@ TextureImporter:
       name: player sprite sheet_23
       rect:
         serializedVersion: 2
-        x: 256
+        x: 257
         y: 2048
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -892,10 +892,10 @@ TextureImporter:
       name: player sprite sheet_24
       rect:
         serializedVersion: 2
-        x: 512
+        x: 513
         y: 2048
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -914,10 +914,10 @@ TextureImporter:
       name: player sprite sheet_25
       rect:
         serializedVersion: 2
-        x: 768
+        x: 769
         y: 2048
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1158,8 +1158,8 @@ TextureImporter:
         serializedVersion: 2
         x: 568
         y: 1792
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1178,10 +1178,10 @@ TextureImporter:
       name: player sprite sheet_39
       rect:
         serializedVersion: 2
-        x: 1074
+        x: 1075
         y: 1792
-        width: 256
-        height: 256
+        width: 254
+        height: 254
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

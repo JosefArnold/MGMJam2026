@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : Destructible, Controls.IPlayerActions {
 
@@ -23,7 +25,6 @@ public class Player : Destructible, Controls.IPlayerActions {
   [SerializeField] Vector2 boxSize; // For the ground raycasting
   [SerializeField] float groundDistance; // Also for the ground raycasting
   [SerializeField] LayerMask groundLayer;
-  [SerializeField] GameObject temporaryAttackObject; // DELETE LATER
 
   private Vector2 cameraFocusPoint;
   private Vector2 projectileSpawnPoint;
@@ -42,7 +43,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   private bool holdingFlight = false;
   private float flightMeter;
   private float flashCooldown;
-  private bool holdingShoot = false;
+  private bool attacking = false;
 
   // References to change in script
   CameraController cam;
@@ -75,6 +76,11 @@ public class Player : Destructible, Controls.IPlayerActions {
     anim = GetComponent<Animator>();
     sr = GetComponent<SpriteRenderer>();
 
+    if (SceneManager.GetActiveScene().name.Equals("BeginningArea"))
+      anim.SetBool("IntroOver", false);
+    else
+      anim.SetBool("IntroOver", true);
+
     flightMeter = flightDuration;
   }
 
@@ -90,7 +96,8 @@ public class Player : Destructible, Controls.IPlayerActions {
       flightMeter -= Time.deltaTime;
       rb.linearVelocityY = flightSpeed;
       LevelHUD.ptr.UpdateUIMeters(0, flightMeter);
-    }
+    } else
+      anim.SetBool("Flying", false);
 
     if (projectileCharging && chargeTime < projectileChargeTime)
       chargeTime += Time.deltaTime;
@@ -99,10 +106,8 @@ public class Player : Destructible, Controls.IPlayerActions {
       flashCooldown -= Time.deltaTime;
       LevelHUD.ptr.UpdateUIMeters(1, -flashCooldown);
     }
-  }
 
-  public void CameraRef(CameraController c) {
-    cam = c;
+    anim.SetFloat("xSpeed", Mathf.Abs(rb.linearVelocityX));
   }
 
   public bool IsGrounded() {
@@ -113,12 +118,17 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   private void OnCollisionEnter2D(Collision2D collision) {
-    if (collision != null && collision.gameObject.CompareTag("Ground"))
+    if (collision != null && collision.gameObject.CompareTag("Ground")) {
       if (IsGrounded()) {
         flightMeter = flightDuration;
         LevelHUD.ptr.UpdateUIMeters(0, flightDuration);
         LevelHUD.ptr.ToggleUISlider(0, false);
+        anim.SetBool("Midair", false);
+        anim.SetTrigger("Landed");
+      } else {
+        anim.ResetTrigger("Landed");
       }
+    }
   }
 
   // This is just so we can see the raycast in the Editor if we wanna make edits
@@ -127,6 +137,26 @@ public class Player : Destructible, Controls.IPlayerActions {
 
     Gizmos.DrawWireCube(transform.position - transform.up * groundDistance, boxSize);
   }
+
+  /********* Animation Triggers and Resets ************/
+
+  public void IntroCutsceneFinished() {
+    anim.SetBool("StartGame", true);
+  }
+
+  public void MagicalGirlTransformation() {
+    anim.SetBool("IntroOver", true);
+  }
+
+  public void ResetLanded() {
+    anim.ResetTrigger("Landed");
+  }
+
+  public void ResetAttack() {
+    anim.ResetTrigger("Attacking");
+  }
+
+  /********* Player Input Controls ************/
 
   void OnDisable() => controls.Player.Disable();
 
@@ -149,31 +179,35 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnJump(InputAction.CallbackContext ctx) {
-    if (abilities[0] && ctx.performed) {
+    if (abilities[0] && !attacking && ctx.performed) {
       if (IsGrounded()) {
+        anim.SetTrigger("Jump");
+        anim.ResetTrigger("Landed");
+        anim.SetBool("Midair", true);
         rb.linearVelocityY = jumpHeight;
       } else if (abilities[4]) {
+        anim.SetBool("Flying", true);
         holdingFlight = true;
         LevelHUD.ptr.ToggleUISlider(0, true);
       }
-      Debug.Log("Testing this little shit");
     }
 
-    if (ctx.canceled && !IsGrounded()) {
-      holdingFlight = false;
-      LevelHUD.ptr.ToggleUISlider(0, false);
+    if (ctx.canceled) {
+      if (!IsGrounded()) {
+        holdingFlight = false;
+        anim.SetBool("Flying", false);
+        LevelHUD.ptr.ToggleUISlider(0, false);
 
-      if (rb.linearVelocityY > 0)
-        rb.linearVelocityY = rb.linearVelocityY / 2;
+        if (rb.linearVelocityY > 0)
+          rb.linearVelocityY = rb.linearVelocityY / 2;
+      }
+      anim.ResetTrigger("Jump");
     }
   }
 
   public void OnAttack(InputAction.CallbackContext ctx) {
-    // Just note to self for later: when we have the attack animation, I can use it to toggle the attack trigger on and off,
-    // so in here I would just tell the animator to play that animation
-
     if (abilities[1])
-      temporaryAttackObject.SetActive(true);
+      anim.SetTrigger("Attacking");
   }
 
   public void OnLook(InputAction.CallbackContext ctx) {
@@ -257,8 +291,11 @@ public class Player : Destructible, Controls.IPlayerActions {
     controls.Enable();
   }
 
+  /********* Player Damage ************/
+
   protected override void DamageEffect() {
     ToggleIFrames();
+    StartCoroutine(DamageFlash());
     Invoke("ToggleIFrames", 0.5f);
     LevelHUD.ptr.UpdateHealth(health);
   }
@@ -267,8 +304,15 @@ public class Player : Destructible, Controls.IPlayerActions {
     iFrames = !iFrames;
   }
 
+  IEnumerator DamageFlash() {
+    sr.color = new Color(1.0f, 0.41f, 0.41f);
+    yield return new WaitForSeconds(0.5f);
+    sr.color = Color.white;
+  }
+
   protected override void Death() {
     LevelHUD.ptr.UpdateHealth(health);
+    anim.SetTrigger("Death");
     controls.Disable();
     //Destroy(gameObject);
   }
@@ -280,6 +324,12 @@ public class Player : Destructible, Controls.IPlayerActions {
       interactableInRange = false;
     else
       interactableInRange = true;
+  }
+
+  /********* Setting & Getting Variables ************/
+
+  public void CameraRef(CameraController c) {
+    cam = c;
   }
 
   public void ToggleAbility(int index, bool b) {

@@ -126,7 +126,7 @@ TextureImporter:
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -143,12 +143,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_1
       rect:
         serializedVersion: 2
-        x: 809
+        x: 825
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,12 +165,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_2
       rect:
         serializedVersion: 2
-        x: 1618
+        x: 1650
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -187,12 +187,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_3
       rect:
         serializedVersion: 2
-        x: 2427
+        x: 2475
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,12 +209,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_4
       rect:
         serializedVersion: 2
-        x: 3236
+        x: 3300
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -231,12 +231,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_5
       rect:
         serializedVersion: 2
-        x: 4045
+        x: 4125
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -253,12 +253,12 @@ TextureImporter:
       name: Enemy_Walk_(Sprite_Sheet)_6
       rect:
         serializedVersion: 2
-        x: 4854
+        x: 4948
         y: 17
         width: 809
         height: 809
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

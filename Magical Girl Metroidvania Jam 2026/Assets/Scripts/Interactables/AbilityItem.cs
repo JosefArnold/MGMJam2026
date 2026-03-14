@@ -6,23 +6,29 @@ public class AbilityItem : Interactable {
   [SerializeField] private GameObject tutorialText;
   private Player player;
   private bool buffer = false;
+  private Animator anim;
+
+  private void Start() {
+    anim = GetComponent<Animator>();
+  }
 
   public override void Interact(Player p) {
     if (!buffer) {
       player = p;
       player.ToggleAbility(abilityIndex, true);
       p.ToggleControls(false);
+      anim.SetTrigger("Interact");
       buffer = true;
-      //TEMP
-      Invoke("EndInteraction", 1.0f);
     }
   }
 
   public void EndInteraction() {
     player.ToggleControls(true);
 
-    if (abilityIndex == 0)
+    if (abilityIndex == 0) {
+      GameManager.ptr.p.MagicalGirlTransformation();
       LevelHUD.ptr.ToggleHealth(true);
+    }
 
     tutorialText.SetActive(true);
     Destroy(gameObject);

@@ -51,6 +51,7 @@ public class StartMenu : Menu {
   public void IntroSequence() {
     gameObject.SetActive(false);
     GameManager.ptr.p.ToggleControls(true);
+    GameManager.ptr.p.IntroCutsceneFinished();
   }
 
   public void NoLoadedGame() {
