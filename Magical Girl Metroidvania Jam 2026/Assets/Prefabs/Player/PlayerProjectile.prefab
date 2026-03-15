@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7698900799519144525}
   - component: {fileID: 8486084484828495667}
   - component: {fileID: 4124035585435625579}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

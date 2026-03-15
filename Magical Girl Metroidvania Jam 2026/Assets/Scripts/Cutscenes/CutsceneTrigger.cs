@@ -8,7 +8,12 @@ public class CutsceneTrigger : MonoBehaviour {
     if (collision != null && collision.gameObject.CompareTag("Player")) {
       GameManager.ptr.p.ToggleControls(false);
       director.Play();
-      Destroy(gameObject);
     }
+  }
+
+  public void StopCutscene() {
+    GameManager.ptr.p.ToggleControls(true);
+    director.Stop();
+    Destroy(gameObject);
   }
 }

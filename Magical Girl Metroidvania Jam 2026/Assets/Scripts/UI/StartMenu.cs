@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class StartMenu : Menu {
 
   [SerializeField] private Image logo;
   [SerializeField] private Button[] uiElements;
+  [SerializeField] private PlayableDirector director;
   private bool confirm;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,8 +52,7 @@ public class StartMenu : Menu {
 
   public void IntroSequence() {
     gameObject.SetActive(false);
-    GameManager.ptr.p.ToggleControls(true);
-    GameManager.ptr.p.IntroCutsceneFinished();
+    director.Play();
   }
 
   public void NoLoadedGame() {

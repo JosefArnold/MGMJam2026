@@ -26,7 +26,7 @@ public class Room : MonoBehaviour {
       if (!lockCamera)
         cam.SetBounds(minBound, maxBound);
       else
-        cam.LockPosition(lockCamera, minBound);
+        cam.LockPosition(minBound);
 
       if (roomIndices != null)
         GameManager.ptr.SetSeenRooms(roomIndices[0], null);

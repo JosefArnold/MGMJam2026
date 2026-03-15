@@ -37,14 +37,19 @@ public class CameraController : MonoBehaviour {
 
   // Update is called once per frame
   void LateUpdate() {
-    if (transform.position != target) {
-      Vector3 targetPos = new Vector3(target.x, target.y, target.z);
+    if (!lockPosition) {
+      if (transform.position != target) {
+        Vector3 targetPos = new Vector3(target.x, target.y, target.z);
 
-      //targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
-      //targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
-      //targetPos.z = Mathf.Clamp(targetPos.z, minPos.z, maxPos.z);
+        targetPos.x = Mathf.Clamp(targetPos.x, minPos.x, maxPos.x);
+        targetPos.y = Mathf.Clamp(targetPos.y, minPos.y, maxPos.y);
+        targetPos.z = Mathf.Clamp(targetPos.z, minPos.z, maxPos.z);
 
-      transform.position = Vector3.Lerp(transform.position, targetPos, smooth);
+        transform.position = Vector3.Lerp(transform.position, targetPos, smooth);
+      }
+    } else {
+      if (transform.position != target)
+        transform.position = Vector3.Lerp(transform.position, target, smooth);
     }
 
     if (targetFOV != 0 && cam.fieldOfView != targetFOV) {
@@ -76,10 +81,9 @@ public class CameraController : MonoBehaviour {
     }
   }
 
-  public void LockPosition(bool lockPos, Vector3 newTarget) {
-    lockPosition = lockPos;
-
-    if (lockPos)
-      target = newTarget;
+  public void LockPosition(Vector3 newTarget) {
+    Debug.Log("Test");
+    lockPosition = true;
+    target = newTarget;
   }
 }

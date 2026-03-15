@@ -9,6 +9,8 @@ public class Boss : Destructible {
   [SerializeField] private PlayableDirector director;
   [SerializeField] private PlayableAsset deathCutscene;
   [SerializeField] private SpriteRenderer[] sr;
+  [SerializeField] private GameObject projectile;
+  [SerializeField] private Transform projectileSpawnPoint;
   private Animator anim;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +41,15 @@ public class Boss : Destructible {
 
     anim.SetTrigger("Attack" + index);
     lastAttack = index;
+  }
+
+  public void ShootProjectile() {
+    Player p = GameManager.ptr.p;
+    Vector2 projAngle = p.transform.position - projectileSpawnPoint.position;
+    projAngle.Normalize();
+
+    GameObject proj = Instantiate(projectile, projectileSpawnPoint.transform.position, Quaternion.identity);
+    proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
   }
 
   protected override void DamageEffect() {

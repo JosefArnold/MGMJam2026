@@ -146,6 +146,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   /********* Animation Triggers and Resets ************/
 
   public void IntroCutsceneFinished() {
+    ToggleControls(true);
     anim.SetBool("StartGame", true);
   }
 
