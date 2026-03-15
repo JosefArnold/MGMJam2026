@@ -293,7 +293,7 @@ MonoBehaviour:
   triggerOnContact: 0
   prompt: {fileID: 2016652957967697980}
   disabled: 0
-  abilityIndex: 0
+  abilityIndex: 2
   tutorialText: {fileID: 920772274261396727}
 --- !u!61 &8715027509200277827
 BoxCollider2D:
