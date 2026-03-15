@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour {
 
   public string nextScene; // Name of the next scene to load
 
-  private bool[] roomsSeen = new bool[50];
+  private bool[] roomsSeen = new bool[9];
+  public int currentRoom;
 
   [SerializeField] public Player p;
 
@@ -54,9 +55,10 @@ public class GameManager : MonoBehaviour {
   }
 
   public void SetSeenRooms(int index, bool[] b) {
-    if (index != -1)
+    if (index != -1) {
       roomsSeen[index] = true;
-    else
+      currentRoom = index;
+    } else
       roomsSeen = b;
   }
 

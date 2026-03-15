@@ -57,6 +57,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   private Interactable interactable;
 
   // Components
+  private SFX sfx;
   private Rigidbody2D rb;
   private Animator anim;
   private SpriteRenderer sr;
@@ -76,6 +77,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
     health = maxHealth;
+    sfx = GetComponent<SFX>();
     rb = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
     sr = GetComponent<SpriteRenderer>();
@@ -92,6 +94,12 @@ public class Player : Destructible, Controls.IPlayerActions {
   void FixedUpdate() {
     if (moveValue != Vector2.zero)
       rb.linearVelocityX = moveValue.x * baseMoveSpeed;
+
+    if (moveValue.x != 0 && IsGrounded()) // Walking SFX
+      sfx.SetCycleIndices(new int[] { 0, 1, 2, 3 }, false);
+
+    if (rb.linearVelocityY != 0 && !IsGrounded())
+      anim.SetBool("Midair", true);
 
     MoveProjectileSpawnPoint();
     MoveCameraFocusPoint();
@@ -159,6 +167,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void ResetAttack() {
+    attacking = false;
     anim.ResetTrigger("Attacking");
   }
 
@@ -185,7 +194,8 @@ public class Player : Destructible, Controls.IPlayerActions {
       facingDirection = moveValue.x < 0 ? -1.0f : 1.0f;
       sr.flipX = facingDirection == -1.0f ? true : false;
       melee.transform.localScale = new Vector3(facingDirection == -1 ? -1.0f : 1.0f, 1.0f, 1.0f);
-    }
+    } else
+      sfx.StopSFX();
   }
 
   public void OnInteract(InputAction.CallbackContext ctx) {
@@ -194,13 +204,14 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnJump(InputAction.CallbackContext ctx) {
-    if (abilities[0] && !attacking && ctx.performed) {
-      if (IsGrounded()) {
+    if (abilities[0] && ctx.performed) {
+      if (!attacking && IsGrounded()) {
+        sfx.StopSFX();
         anim.SetTrigger("Jump");
         anim.ResetTrigger("Landed");
         anim.SetBool("Midair", true);
         rb.linearVelocityY = jumpHeight;
-      } else if (abilities[4]) {
+      } else if (!IsGrounded() && abilities[4]) {
         anim.SetBool("Flying", true);
         holdingFlight = true;
         LevelHUD.ptr.ToggleUISlider(0, true);
@@ -221,8 +232,11 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnAttack(InputAction.CallbackContext ctx) {
-    if (abilities[1])
+    if (abilities[1] && !attacking && !projectileCharging) {
+      attacking = true;
+      sfx.SetCycleIndices(new int[] { 4, 5, 6, 7 }, true);
       anim.SetTrigger("Attacking");
+    }
   }
 
   public void OnLook(InputAction.CallbackContext ctx) {
@@ -264,7 +278,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   }
 
   public void OnShoot(InputAction.CallbackContext ctx) {
-    if (abilities[2] && ctx.performed) {
+    if (abilities[2] && !attacking && ctx.performed) {
       Vector2 projAngle = new Vector2((moveValue.y > 0 && moveValue.x == 0) ? 0.0f : facingDirection, // If the player is "aiming" up but not moving
         moveValue.y); // If the player is aiming up
 
@@ -286,7 +300,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
       proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
 
-      if (abilities[3])
+      if (abilities[3] && !attacking)
         projectileCharging = true;
     }
 
@@ -331,6 +345,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   private void Flashbang() {
     flashbang.SetActive(true);
+    sfx.SetSFX(11, false, true);
     LevelHUD.ptr.UpdateUIMeters(1, -flashbangCooldown);
 
     rb.gravityScale = 3.5f;
@@ -341,6 +356,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   protected override void DamageEffect() {
     ToggleIFrames();
+    sfx.SetCycleIndices(new int[] { 8, 9 }, true);
     StartCoroutine(DamageFlash());
     Invoke("ToggleIFrames", 0.5f);
     LevelHUD.ptr.UpdateHealth(health);
@@ -348,6 +364,20 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   private void ToggleIFrames() {
     iFrames = !iFrames;
+
+    /*
+    if (!iFrames) {
+      List<Collider2D> list = new List<Collider2D>();
+      Physics2D.OverlapCollider(gameObject.GetComponent<BoxCollider2D>(), list);
+
+      for (int i = 0; i < list.Count; i++) {
+        if (list[i].gameObject.CompareTag("Enemy")) {
+          TakeDamage(1);
+          break;
+        }
+      }
+    }
+    */
   }
 
   IEnumerator DamageFlash() {
@@ -358,6 +388,7 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   protected override void Death() {
     LevelHUD.ptr.UpdateHealth(health);
+    sfx.SetSFX(9, false, true);
     anim.SetTrigger("Death");
     controls.Disable();
     //Destroy(gameObject);

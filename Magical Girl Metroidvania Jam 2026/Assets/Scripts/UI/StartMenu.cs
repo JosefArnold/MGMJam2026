@@ -26,6 +26,7 @@ public class StartMenu : Menu {
 
   public void NewGame() {
     if (confirm) {
+      NewGameSFX();
       SaveManager.ptr.WipeSave();
 
       eventSystem.firstSelectedGameObject = elementsToSwapTo[2].gameObject;
@@ -48,6 +49,10 @@ public class StartMenu : Menu {
   public void ConfirmNewGame() {
     confirm = true;
     NewGame();
+  }
+
+  public void NewGameSFX() {
+    uiSFX.SetSFX(0, false, true);
   }
 
   public void IntroSequence() {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Flashbang : MonoBehaviour {
@@ -9,12 +10,20 @@ public class Flashbang : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D collision) {
     if (collision != null) {
-      if (collision.gameObject.CompareTag("Enemy"))
-        collision.gameObject.GetComponent<Enemy>().Stun();
+      if (collision.gameObject.CompareTag("Enemy")) {
+        try {
+          collision.gameObject.GetComponent<Enemy>().Stun();
+        } catch {
+          try {
+            collision.gameObject.GetComponent<Barrier>().TakeDamage(5);
+          } catch {
+            collision.gameObject.GetComponent<Boss>().Stun();
+          }
+        }
+      }
       
       if (collision.gameObject.CompareTag("RustWall")) {
         collision.gameObject.GetComponent<RustWall>().TakeDamage(3);
-        Debug.Log("Test");
       }
     }
 

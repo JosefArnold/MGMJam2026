@@ -40,17 +40,21 @@ public class OptionsMenu : Menu {
       soundSliders[0].onValueChanged.AddListener((float value) => masterVol = value);
       soundSliders[0].onValueChanged.AddListener(delegate { SaveManager.ptr.settings.SetMasterVolume(masterVol); });
       soundSliders[0].onValueChanged.AddListener(delegate { MusicManager.ptr.SetVolume(musicVol, masterVol); });
+      soundSliders[0].onValueChanged.AddListener(delegate { uiSFX.SetSFX(1, false, true); });
 
       soundSliders[1].onValueChanged.AddListener((float value) => musicVol = value);
       soundSliders[1].onValueChanged.AddListener(delegate { MusicManager.ptr.SetVolume(musicVol, masterVol); });
       soundSliders[1].onValueChanged.AddListener(delegate { SaveManager.ptr.settings.SetMusicVolume(musicVol); });
+      soundSliders[1].onValueChanged.AddListener(delegate { uiSFX.SetSFX(1, false, true); });
 
       soundSliders[2].onValueChanged.AddListener((float value) => sfxVol = value);
       soundSliders[2].onValueChanged.AddListener(delegate { SaveManager.ptr.settings.SetSFXVolume(sfxVol); });
+      soundSliders[2].onValueChanged.AddListener(delegate { uiSFX.SetSFX(1, false, true); });
 
       UpdateSFXSources(MusicManager.ptr.GetSFXObjs());
 
       buttons[0].onClick.AddListener(delegate { SwapMenus(0); });
+      buttons[0].onClick.AddListener(delegate { uiSFX.SetSFX(4, false, true); });
 
       initialized = true;
     }
@@ -64,6 +68,7 @@ public class OptionsMenu : Menu {
   public void NewGameRemap() {
     buttons[0].onClick.RemoveAllListeners();
     buttons[0].onClick.AddListener(delegate { SwapMenus(1); });
+    buttons[0].onClick.AddListener(delegate { uiSFX.SetSFX(4, false, true); });
   }
 
   public void UpdateSFXSources(List<SFX> sfxObjs) {

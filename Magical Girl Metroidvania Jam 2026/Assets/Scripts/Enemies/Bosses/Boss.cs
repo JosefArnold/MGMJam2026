@@ -11,10 +11,13 @@ public class Boss : Destructible {
   [SerializeField] private SpriteRenderer[] sr;
   [SerializeField] private GameObject projectile;
   [SerializeField] private Transform projectileSpawnPoint;
+  private SFX sfx;
   private Animator anim;
+  private bool stunned;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
+    sfx = GetComponent<SFX>();
     anim = GetComponent<Animator>();
   }
 
@@ -30,26 +33,49 @@ public class Boss : Destructible {
   }
 
   public void RandomizeAttack() {
+    if (!stunned) {
+      if (lastAttack != 0)
+        anim.ResetTrigger("Attack" + lastAttack);
 
-    if (lastAttack != 0)
-      anim.ResetTrigger("Attack" + lastAttack);
+      int index = lastAttack;
 
-    int index = lastAttack;
+      while (index == lastAttack)
+        index = Random.Range(1, 4);
 
-    while (index == lastAttack)
-      index = Random.Range(1, 4);
-
-    anim.SetTrigger("Attack" + index);
-    lastAttack = index;
+      anim.SetTrigger("Attack" + index);
+      lastAttack = index;
+    }
   }
 
   public void ShootProjectile() {
-    Player p = GameManager.ptr.p;
-    Vector2 projAngle = p.transform.position - projectileSpawnPoint.position;
-    projAngle.Normalize();
+    if (!stunned) {
+      Player p = GameManager.ptr.p;
+      Vector2 projAngle = p.transform.position - projectileSpawnPoint.position;
+      projAngle.Normalize();
 
-    GameObject proj = Instantiate(projectile, projectileSpawnPoint.transform.position, Quaternion.identity);
-    proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
+      GameObject proj = Instantiate(projectile, projectileSpawnPoint.transform.position, Quaternion.identity);
+      proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
+    }
+  }
+
+  public void Stun() {
+    anim.SetBool("Stunned", true);
+
+    StartCoroutine(StunWearOff());
+
+    InvokeRepeating("StunDamage", 0.0f, 1.0f);
+  }
+
+  private void StunDamage() {
+    TakeDamage(2);
+  }
+
+  IEnumerator StunWearOff() {
+    yield return new WaitForSeconds(3.0f);
+
+    anim.SetBool("Stunned", false);
+    CancelInvoke();
+    stunned = false;
   }
 
   protected override void DamageEffect() {
@@ -57,6 +83,7 @@ public class Boss : Destructible {
   }
 
   protected override void Death() {
+    stunned = false;
     anim.SetTrigger("Death");
     director.playableAsset = deathCutscene;
     director.Play();

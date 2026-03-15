@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
   //Object references
   [SerializeField] private EventSystem eventSystem;
   [SerializeField] private Player p;
+  [SerializeField] private SFX uiSFX;
 
   //UI Elements
   [SerializeField] private GameObject[] UIGroups;
@@ -90,10 +91,15 @@ public class UIManager : MonoBehaviour {
 
     ToggleElement(1);
 
-    if (paused)
+    if (paused) {
       Time.timeScale = 0.0f;
-    else
+      Debug.Log("Paused");
+      uiSFX.SetSFX(3, false, true);
+    } else {
       Time.timeScale = 1.0f;
+      Debug.Log("Unpaused");
+      uiSFX.SetSFX(4, false, true);
+    }
   }
 
   public void Fade() {

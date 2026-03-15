@@ -33,6 +33,7 @@ public class Enemy : Destructible {
   private Player p;
 
   // Components
+  private SFX sfx;
   private Rigidbody2D rb;
   private Animator anim;
   private SpriteRenderer sr;
@@ -45,6 +46,7 @@ public class Enemy : Destructible {
   private bool stunned;
 
   private void Start() {
+    sfx = GetComponent<SFX>();
     rb = transform.parent.GetComponent<Rigidbody2D>();
     anim = transform.parent.GetComponent<Animator>();
     sr = GetComponent<SpriteRenderer>();
@@ -137,6 +139,10 @@ public class Enemy : Destructible {
           rb.linearVelocity = new Vector2(0.0f, flying ? 0.0f : rb.linearVelocityY);
 
       }
+
+      if (!flying && rb.linearVelocityX != 0.0f) {
+        sfx.SetCycleIndices(new int[] { 0, 1, 2, 3 }, false);
+      }
     }
   }
 
@@ -200,7 +206,20 @@ public class Enemy : Destructible {
   }
 
   protected override void Death() {
-    Destroy(transform.parent.gameObject);
+    sfx.SetSFX(4, false, true);
+    moving = false;
+    rb.linearVelocity = Vector2.zero;
+    damagePlayerOnContact = false;
+
+    StartCoroutine(DestroyObj());
+  }
+
+  IEnumerator DestroyObj() {
+    while (sfx.IsPlaying()) {
+      yield return null;
+    }
+
+    Destroy(transform.parent.parent.gameObject);
   }
 
   protected virtual void EnemyAttack() {
@@ -243,10 +262,12 @@ public class Enemy : Destructible {
 
     if (flying)
       rb.linearVelocity = Vector2.zero;
-    else
+    else {
       rb.linearVelocityX = 0;
+      anim.SetBool("Stunned", true);
+    }
 
-      StartCoroutine(StunWearOff());
+    StartCoroutine(StunWearOff());
 
     InvokeRepeating("StunDamage", 0.0f, 1.0f);
   }
@@ -259,6 +280,7 @@ public class Enemy : Destructible {
     yield return new WaitForSeconds(3.0f);
 
     CancelInvoke();
+    anim.SetBool("Stunned", false);
     stunned = false;
   }
 }
