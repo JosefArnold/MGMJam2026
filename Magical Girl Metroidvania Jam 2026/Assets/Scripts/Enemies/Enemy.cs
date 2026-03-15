@@ -144,9 +144,10 @@ public class Enemy : Destructible {
     if (!stunned) {
       if (playerSpotted && turnToFacePlayer && p != null) {
         direction = p.transform.position.x - transform.position.x < 0 ? -1 : 1;
-      } else if (moving) {
+      } else if (moving && rb.linearVelocityX != 0) {
         direction = rb.linearVelocityX > 0 ? 1 : -1;
-      }
+      } else if (rb.linearVelocityX == 0)
+        direction = 0;
 
       if (direction != 0) {
         foreach (Transform t in triggers) {
