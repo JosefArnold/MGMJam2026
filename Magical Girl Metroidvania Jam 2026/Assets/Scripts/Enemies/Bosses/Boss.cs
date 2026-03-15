@@ -1,16 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Boss : Destructible {
 
   private int lastAttack = 0;
 
-  private SpriteRenderer[] sr;
+  [SerializeField] private PlayableDirector director;
+  [SerializeField] private PlayableAsset deathCutscene;
+  [SerializeField] private SpriteRenderer[] sr;
   private Animator anim;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
-
+    anim = GetComponent<Animator>();
   }
 
   // Update is called once per frame
@@ -21,7 +24,7 @@ public class Boss : Destructible {
 
 
   public void FinishIntro() {
-
+    GameManager.ptr.p.ToggleControls(true);
   }
 
   public void RandomizeAttack() {
@@ -43,7 +46,9 @@ public class Boss : Destructible {
   }
 
   protected override void Death() {
-
+    anim.SetTrigger("Death");
+    director.playableAsset = deathCutscene;
+    director.Play();
   }
 
   IEnumerator DamageFlash() {

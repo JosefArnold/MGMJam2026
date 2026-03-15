@@ -10,6 +10,7 @@ public class SaveManager : MonoBehaviour {
 
   [SerializeField] public SettingsData settings;
 
+  private int spawnPoint;
   private bool spawnedAtSavePoint;
 
   private void Awake() {
@@ -91,8 +92,7 @@ public class SaveManager : MonoBehaviour {
   }
 
   public void AutoSave(Scene scene, LoadSceneMode mode) {
-    if (!spawnedAtSavePoint)
-      Save(0, GameManager.ptr.p);
+    Save(spawnPoint, GameManager.ptr.p);
   }
 
   public void Load(Scene scene, LoadSceneMode mode) {
@@ -103,7 +103,7 @@ public class SaveManager : MonoBehaviour {
       SaveFile save = (SaveFile)bf.Deserialize(file);
       file.Close();
 
-      spawnedAtSavePoint = save.savePointIndex == 0 ? false : true;
+      spawnPoint = save.savePointIndex;
 
       settings.SetMasterVolume(save.settings[0]);
       settings.SetMusicVolume(save.settings[1]);

@@ -17,7 +17,7 @@ public abstract class Destructible : MonoBehaviour {
 
       if (health <= 0)
         Death();
-      else
+      else if (damage > 0)
         DamageEffect();
     }
   }
