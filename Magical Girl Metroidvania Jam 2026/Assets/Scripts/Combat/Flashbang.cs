@@ -8,8 +8,14 @@ public class Flashbang : MonoBehaviour {
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {
-    if (collision != null && collision.gameObject.CompareTag("Enemy")) {
-      collision.gameObject.GetComponent<Enemy>().Stun();
+    if (collision != null) {
+      if (collision.gameObject.CompareTag("Enemy"))
+        collision.gameObject.GetComponent<Enemy>().Stun();
+      
+      if (collision.gameObject.CompareTag("RustWall")) {
+        collision.gameObject.GetComponent<RustWall>().TakeDamage(3);
+        Debug.Log("Test");
+      }
     }
 
     gameObject.SetActive(false);

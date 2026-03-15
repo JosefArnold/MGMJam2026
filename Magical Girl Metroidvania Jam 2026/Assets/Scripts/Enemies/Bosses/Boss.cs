@@ -23,6 +23,10 @@ public class Boss : Destructible {
   }
 
   public void RandomizeAttack() {
+
+    if (lastAttack != 0)
+      anim.ResetTrigger("Attack" + lastAttack);
+
     int index = lastAttack;
 
     while (index == lastAttack)
@@ -33,7 +37,7 @@ public class Boss : Destructible {
   }
 
   protected override void DamageEffect() {
-    
+    StartCoroutine(DamageFlash());
   }
 
   protected override void Death() {

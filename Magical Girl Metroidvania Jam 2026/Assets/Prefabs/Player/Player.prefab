@@ -290,6 +290,7 @@ MonoBehaviour:
   dashDistance: 0
   dashCooldown: 0
   flashbangCooldown: 10
+  melee: {fileID: 8080856884467449956}
   aimObj: {fileID: 1069386132533383329}
   aimSprite: {fileID: 3051990809784908935}
   aimAnim: {fileID: 2781733641073944286}

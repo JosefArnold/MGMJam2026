@@ -23,12 +23,13 @@ public class Room : MonoBehaviour {
 
   private void OnTriggerEnter2D(Collider2D collision) {
     if (collision != null && collision.gameObject.CompareTag("Player")) {
-      if (lockCamera)
+      if (!lockCamera)
         cam.SetBounds(minBound, maxBound);
       else
         cam.LockPosition(lockCamera, minBound);
 
-      GameManager.ptr.SetSeenRooms(roomIndices[0], null);
+      if (roomIndices != null)
+        GameManager.ptr.SetSeenRooms(roomIndices[0], null);
     }
   }
 }

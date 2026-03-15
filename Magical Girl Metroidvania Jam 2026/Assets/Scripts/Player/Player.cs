@@ -17,6 +17,7 @@ public class Player : Destructible, Controls.IPlayerActions {
   [SerializeField] private float dashDistance;
   [SerializeField] private float dashCooldown;
   [SerializeField] private float flashbangCooldown;
+  [SerializeField] GameObject melee;
   [SerializeField] GameObject aimObj;
   [SerializeField] SpriteRenderer aimSprite;
   [SerializeField] Animator aimAnim;
@@ -182,6 +183,7 @@ public class Player : Destructible, Controls.IPlayerActions {
     if (moveValue.x != 0) {
       facingDirection = moveValue.x < 0 ? -1.0f : 1.0f;
       sr.flipX = facingDirection == -1.0f ? true : false;
+      melee.transform.localScale = new Vector3(facingDirection == -1 ? -1.0f : 1.0f, 1.0f, 1.0f);
     }
   }
 

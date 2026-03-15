@@ -10,6 +10,7 @@ TagManager:
   - Barrier
   - Projectile
   - InteractionObj
+  - RustWall
   layers:
   - Default
   - TransparentFX
