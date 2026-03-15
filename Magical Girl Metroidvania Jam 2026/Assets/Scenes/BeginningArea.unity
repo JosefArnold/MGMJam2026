@@ -20559,7 +20559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.5
+      value: 88.5
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26484,7 +26484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.5
+      value: 75.5
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31123,7 +31123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.5
+      value: 75.5
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31866,7 +31866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.5
+      value: 88.5
       objectReference: {fileID: 0}
     - target: {fileID: 7354146406922667668, guid: 3d2ee06c2f8cf4a44aa57e27753d7d41, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32058,6 +32058,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2393544220289052434, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
+      propertyPath: m_Name
+      value: SpawnPoint (Junkyard)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773082411824510991, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4576939564808547094, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
       propertyPath: m_Name
       value: SceneTransitionObj
@@ -32068,7 +32076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8850952195538675997, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 109.5
+      value: 120.5
       objectReference: {fileID: 0}
     - target: {fileID: 8850952195538675997, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
       propertyPath: m_LocalPosition.y
