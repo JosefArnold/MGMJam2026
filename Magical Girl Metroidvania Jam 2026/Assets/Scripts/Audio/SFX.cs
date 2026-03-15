@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SFX : MonoBehaviour {
@@ -5,6 +6,9 @@ public class SFX : MonoBehaviour {
   [SerializeField] private AudioSource audioSource;
   [SerializeField] private AudioClip[] clips;
   private float defaultVolume;
+  private bool cyclingSounds;
+  private int[] cycleSounds;
+  private int lastSFXIndex;
 
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
@@ -25,8 +29,38 @@ public class SFX : MonoBehaviour {
     audioSource.loop = loop;
     audioSource.Play();
   }
+  
+  public void StopSFX() {
+    audioSource.Stop();
+    StopAllCoroutines();
+  }
+
+  public void SetCycleIndices(int[] indices) {
+    if (!cyclingSounds) {
+      cycleSounds = indices;
+      SetSFX(0, false);
+      lastSFXIndex = 0;
+      StartCoroutine(CycleSounds());
+      cyclingSounds = true;
+    }
+  }
 
   public void SetVolume(float value1, float value2) {
     audioSource.volume = value1 * value2 * defaultVolume;
   }
+
+  IEnumerator CycleSounds() {
+    while (audioSource.isPlaying) {
+      yield return null;
+    }
+
+    int index = lastSFXIndex;
+
+    while (index == lastSFXIndex) {
+      index = Random.Range(0, cycleSounds.Length - 1);
+    }
+
+    SetSFX(index, false);
+  }
+
 }

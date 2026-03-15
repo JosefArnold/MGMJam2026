@@ -315,7 +315,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8943811114831353432}
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 6497f7bcf04b4004a9539d0186e39e66, type: 3}
+  - {fileID: 8300000, guid: c455fac0032eef84cbee3b8d56ec1da7, type: 3}
+  - {fileID: 8300000, guid: 239359bcab112c142ba0b57879bc1ffb, type: 3}
+  - {fileID: 8300000, guid: 3c0f694e12540954996674b0cec51acb, type: 3}
+  - {fileID: 8300000, guid: 0661bde230dcf4e408d2d7956a3ab657, type: 3}
+  - {fileID: 8300000, guid: cdb639027ecc89b4fa56cea809ab36fa, type: 3}
+  - {fileID: 8300000, guid: a450a8fb141b77a489956a1bca4e13d7, type: 3}
+  - {fileID: 8300000, guid: fd559a0a48f403c489d113cfb62dbf24, type: 3}
+  - {fileID: 8300000, guid: 894eadca55ebafe408bf26c1385e32aa, type: 3}
+  - {fileID: 8300000, guid: 53919a69d80208145b54e03747e858c9, type: 3}
+  - {fileID: 8300000, guid: 3e05c4a3fbe12954792e23d78871c024, type: 3}
+  - {fileID: 8300000, guid: 6aa7481e58cfe6c47b214a448ae817e7, type: 3}
 --- !u!82 &8943811114831353432
 AudioSource:
   m_ObjectHideFlags: 0
@@ -328,10 +340,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
