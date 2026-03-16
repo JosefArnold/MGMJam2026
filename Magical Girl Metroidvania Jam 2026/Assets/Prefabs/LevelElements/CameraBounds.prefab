@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2361869067278144025}
   - component: {fileID: 6975442752434907307}
   - component: {fileID: 5938972974044097803}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CameraBounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,8 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndices: 
   lockCamera: 0
+  changeFOV: 0
   minBound: {x: 237.5, y: -4.5, z: -10}
   maxBound: {x: 245, y: 1.5, z: -10}
+  newFOV: 0
 --- !u!61 &5938972974044097803
 BoxCollider2D:
   m_ObjectHideFlags: 0
