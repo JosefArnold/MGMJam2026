@@ -52,8 +52,10 @@ public class CameraController : MonoBehaviour {
         if (transform.position != target)
           transform.position = Vector3.Lerp(transform.position, target, smooth);
       }
-    } else if (transform.position != target)
-      transform.position = Vector3.Lerp(transform.position, target, smooth);
+    } else if (transform.position != target) {
+      Vector3 targetPos = new Vector3(target.x, target.y, -10.0f);
+      transform.position = Vector3.Lerp(transform.position, targetPos, smooth);
+    }
 
 
     if (targetFOV != 0 && cam.fieldOfView != targetFOV) {

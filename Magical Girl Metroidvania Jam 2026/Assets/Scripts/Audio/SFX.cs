@@ -29,8 +29,6 @@ public class SFX : MonoBehaviour {
     if (interrupt)
       StopSFX();
 
-    Debug.Log("SFX: " + index);
-
     audioSource.clip = clips[index];
     audioSource.loop = loop;
     audioSource.Play();

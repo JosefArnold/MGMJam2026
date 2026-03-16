@@ -142808,7 +142808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4064153392085326203, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
       propertyPath: nextScene
-      value: Building - Boss Battle
+      value: Boss Battle
       objectReference: {fileID: 0}
     - target: {fileID: 4576939564808547094, guid: 40c70efa027692c47b4807ce73938dd7, type: 3}
       propertyPath: m_Name
@@ -143500,7 +143500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 2045726023}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!114 &1730405805
