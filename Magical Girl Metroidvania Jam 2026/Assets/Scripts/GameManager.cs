@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
 
   [SerializeField] private VideoPlayer transformSequence;
 
+  private GameObject jumpTutorial;
+
   private void Awake() {
     ptr = this;
   }
@@ -73,13 +75,22 @@ public class GameManager : MonoBehaviour {
   public void PlayTransformSequence() {
     transformSequence.gameObject.SetActive(true);
     transformSequence.Play();
+    p.ToggleControls(false);
     MusicManager.ptr.StopTrack();
     StartCoroutine(EndVideo());
+  }
+
+  public void JumpTutorial(GameObject g) {
+    jumpTutorial = g;
   }
 
   IEnumerator EndVideo() {
     yield return new WaitForSeconds(10.0f);
 
+    p.ToggleControls(true);
+    jumpTutorial.SetActive(true);
+    p.MagicalGirlTransformation();
+    LevelHUD.ptr.ToggleHealth(true);
     transformSequence.Stop();
     transformSequence.gameObject.SetActive(false);
     MusicManager.ptr.PlayTrack();

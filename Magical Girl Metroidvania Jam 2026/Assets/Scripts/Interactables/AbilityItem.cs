@@ -29,12 +29,13 @@ public class AbilityItem : Interactable {
     player.ToggleControls(true);
 
     if (abilityIndex == 0) {
+      GameManager.ptr.JumpTutorial(tutorialText);
       GameManager.ptr.PlayTransformSequence();
-      GameManager.ptr.p.MagicalGirlTransformation();
-      LevelHUD.ptr.ToggleHealth(true);
     }
 
-    tutorialText.SetActive(true);
+    if (abilityIndex != 0)
+      tutorialText.SetActive(true);
+
     Destroy(gameObject);
   }
 }
