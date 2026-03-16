@@ -29,6 +29,7 @@ public class AbilityItem : Interactable {
     player.ToggleControls(true);
 
     if (abilityIndex == 0) {
+      GameManager.ptr.PlayTransformSequence();
       GameManager.ptr.p.MagicalGirlTransformation();
       LevelHUD.ptr.ToggleHealth(true);
     }

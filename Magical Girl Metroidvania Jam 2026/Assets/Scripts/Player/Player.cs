@@ -413,6 +413,8 @@ public class Player : Destructible, Controls.IPlayerActions {
 
   public void BeginningAreaLoad() {
     transform.position = GameManager.ptr.GetSavePoint(0).position;
+    health = 5;
+    LevelHUD.ptr.UpdateHealth(health);
     anim.SetTrigger("BeginningSceneRespawn");
     UIManager.ptr.onFade += controls.Enable;
     UIManager.ptr.onFade += ResetBeginningSceneRespawn;

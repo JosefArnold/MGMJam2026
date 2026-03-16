@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,6 +15,8 @@ public class GameManager : MonoBehaviour {
   public int currentRoom;
 
   [SerializeField] public Player p;
+
+  [SerializeField] private VideoPlayer transformSequence;
 
   private void Awake() {
     ptr = this;
@@ -64,6 +68,21 @@ public class GameManager : MonoBehaviour {
 
   public bool[] GetSeenRooms() {
     return roomsSeen;
+  }
+
+  public void PlayTransformSequence() {
+    transformSequence.gameObject.SetActive(true);
+    transformSequence.Play();
+    MusicManager.ptr.StopTrack();
+    StartCoroutine(EndVideo());
+  }
+
+  IEnumerator EndVideo() {
+    yield return new WaitForSeconds(10.0f);
+
+    transformSequence.Stop();
+    transformSequence.gameObject.SetActive(false);
+    MusicManager.ptr.PlayTrack();
   }
 
 }

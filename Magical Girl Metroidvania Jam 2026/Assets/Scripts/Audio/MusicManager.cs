@@ -47,6 +47,10 @@ public class MusicManager : MonoBehaviour {
     audioSource.clip = newTrack;
   }
 
+  public void StopTrack() {
+    audioSource.Stop();
+  }
+
   // Wait some time, THEN play the track
   public void DelayPlayTrack(float time) => Invoke(nameof(PlayTrack), time);
 
