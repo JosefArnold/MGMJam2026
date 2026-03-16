@@ -179,6 +179,10 @@ public class Player : Destructible, Controls.IPlayerActions {
     aimAnim.ResetTrigger("Fired");
   }
 
+  private void ResetBeginningSceneRespawn() {
+    anim.ResetTrigger("BeginningSceneRespawn");
+  }
+
   /********* Player Input Controls ************/
 
   void OnDisable() => controls.Player.Disable();
@@ -392,6 +396,28 @@ public class Player : Destructible, Controls.IPlayerActions {
     anim.SetTrigger("Death");
     controls.Disable();
     //Destroy(gameObject);
+  }
+
+  public void DeathAnimFinished() {
+    string sceneName = SceneManager.GetActiveScene().name;
+
+    if (!sceneName.Equals("BeginningArea"))
+      GameManager.ptr.PrepSceneTransition(SceneManager.GetActiveScene().name);
+    else {
+      UIManager.ptr.onFade += BeginningAreaLoad;
+      UIManager.ptr.ToggleElement(0);
+      UIManager.ptr.SetFadeImage(null, 1.0f);
+      UIManager.ptr.Fade();
+    }
+  }
+
+  public void BeginningAreaLoad() {
+    transform.position = GameManager.ptr.GetSavePoint(0).position;
+    anim.SetTrigger("BeginningSceneRespawn");
+    UIManager.ptr.onFade += controls.Enable;
+    UIManager.ptr.onFade += ResetBeginningSceneRespawn;
+    UIManager.ptr.SetFadeImage(null, 0.0f);
+    UIManager.ptr.Fade();
   }
 
   public void InteractableInRange(Interactable i) {

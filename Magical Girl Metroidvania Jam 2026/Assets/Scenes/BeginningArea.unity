@@ -19142,7 +19142,7 @@ TilemapRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0.13867188, z: 0}
+  m_ChunkCullingBounds: {x: 0, y: 0.27734375, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -25209,8 +25209,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomIndices: 00000000
   lockCamera: 0
+  changeFOV: 0
   minBound: {x: -0.51, y: 0, z: -10}
   maxBound: {x: 108, y: 6, z: -10}
+  newFOV: 0
 --- !u!61 &700514955
 BoxCollider2D:
   m_ObjectHideFlags: 0

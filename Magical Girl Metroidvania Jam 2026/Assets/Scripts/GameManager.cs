@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
     if (index != -1) {
       roomsSeen[index] = true;
       currentRoom = index;
-    } else
+    } else if (index == -1)
       roomsSeen = b;
   }
 

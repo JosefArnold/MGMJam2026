@@ -6,8 +6,10 @@ public class Room : MonoBehaviour {
   [Header("Variables")]
   [SerializeField] private int[] roomIndices;
   [SerializeField] private bool lockCamera;
+  [SerializeField] private bool changeFOV;
   [SerializeField] private Vector3 minBound;
   [SerializeField] private Vector3 maxBound;
+  [SerializeField] private float newFOV;
 
   CameraController cam;
 
@@ -27,6 +29,9 @@ public class Room : MonoBehaviour {
         cam.SetBounds(minBound, maxBound);
       else
         cam.LockPosition(minBound);
+
+      if (changeFOV)
+        cam.SetFOV(newFOV);
 
       if (roomIndices != null)
         GameManager.ptr.SetSeenRooms(roomIndices[0], null);
