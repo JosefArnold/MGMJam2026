@@ -154886,10 +154886,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 326797421}
     m_Modifications:
+    - target: {fileID: 920772274261396727, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1691079695995530995, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: de3f0695f89203548ab4fcaf7ef2c423, type: 3}
+    - target: {fileID: 2016652957967697980, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3968770582314924616, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: m_text
       value: 'Hold Shoot to Charge, Release to Fire
@@ -154942,6 +154950,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4754595245274509572, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4754595245274509572, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 533201101
+      objectReference: {fileID: 0}
+    - target: {fileID: 5592339370846786110, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5635336521309205051, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 5635336521309205051, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5767514581530562911, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: m_Name
       value: Charge
@@ -154949,7 +154977,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6984062557017620160, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 621324067495317302, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 65137249a2a882b4984612668ce9c130, type: 3}
 --- !u!4 &680227512 stripped
 Transform:
@@ -353330,7 +353364,7 @@ Transform:
   m_GameObject: {fileID: 1473751777}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 192.2, y: -10, z: -10}
+  m_LocalPosition: {x: -1, y: -0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
