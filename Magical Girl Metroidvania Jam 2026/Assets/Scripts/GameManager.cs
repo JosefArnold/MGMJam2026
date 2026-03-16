@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 
   public string nextScene; // Name of the next scene to load
 
-  private bool[] roomsSeen = new bool[9];
+  private bool[] roomsSeen = new bool[15];
   public int currentRoom;
 
   [SerializeField] public Player p;
