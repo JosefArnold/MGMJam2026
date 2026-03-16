@@ -87361,6 +87361,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 326797421}
     m_Modifications:
+    - target: {fileID: 1691079695995530995, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: de3f0695f89203548ab4fcaf7ef2c423, type: 3}
+    - target: {fileID: 3968770582314924616, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_text
+      value: 'Hold Shoot to Charge, Release to Fire
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 3997008697871969947, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: abilityIndex
       value: 3
@@ -89637,6 +89647,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 326797421}
     m_Modifications:
+    - target: {fileID: 1691079695995530995, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 495c7803620a3c148962c3200db1ff54, type: 3}
+    - target: {fileID: 3968770582314924616, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_text
+      value: 'Right Click / K / Z / Right Trigger to Shoot
+
+
+        Move / Right
+        Stick to Aim
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4183234752946045593, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.5

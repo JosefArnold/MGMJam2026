@@ -3940,6 +3940,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1284205477}
     m_Modifications:
+    - target: {fileID: 1691079695995530995, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9229197687a70214abd91a2d90bb8bd7, type: 3}
+    - target: {fileID: 3968770582314924616, guid: 65137249a2a882b4984612668ce9c130, type: 3}
+      propertyPath: m_text
+      value: 'Hold Jump in Midair to Fly
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 3997008697871969947, guid: 65137249a2a882b4984612668ce9c130, type: 3}
       propertyPath: abilityIndex
       value: 4
