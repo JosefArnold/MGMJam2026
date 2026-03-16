@@ -6,9 +6,11 @@ public class AbilityItem : Interactable {
   [SerializeField] private GameObject tutorialText;
   private Player player;
   private bool buffer = false;
+  private SFX sfx;
   private Animator anim;
 
   private void Start() {
+    sfx = GetComponent<SFX>();
     anim = GetComponent<Animator>();
   }
 
@@ -17,6 +19,7 @@ public class AbilityItem : Interactable {
       player = p;
       player.ToggleAbility(abilityIndex, true);
       p.ToggleControls(false);
+      sfx.SetSFX(0, false, true);
       anim.SetTrigger("Interact");
       buffer = true;
     }

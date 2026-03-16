@@ -87,6 +87,10 @@ public class Attack : MonoBehaviour {
     anim.SetTrigger("Destroy");
   }
 
+  public void AssignSprite(Sprite s) {
+    sr.sprite = s;
+  }
+
   public void DestroyProjectile() {
     Destroy(gameObject);
   }

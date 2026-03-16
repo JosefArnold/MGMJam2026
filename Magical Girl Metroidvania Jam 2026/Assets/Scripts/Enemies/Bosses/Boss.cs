@@ -11,6 +11,7 @@ public class Boss : Destructible {
   [SerializeField] private SpriteRenderer[] sr;
   [SerializeField] private GameObject projectile;
   [SerializeField] private Transform projectileSpawnPoint;
+  [SerializeField] private Sprite[] projectileSprites;
   private SFX sfx;
   private Animator anim;
   private bool stunned;
@@ -54,6 +55,8 @@ public class Boss : Destructible {
       projAngle.Normalize();
 
       GameObject proj = Instantiate(projectile, projectileSpawnPoint.transform.position, Quaternion.identity);
+
+      proj.GetComponent<Attack>().AssignSprite(projectileSprites[Random.Range(0, 3)]);
       proj.GetComponent<Attack>().SetProjectileDirection(projAngle);
     }
   }
@@ -84,9 +87,14 @@ public class Boss : Destructible {
 
   protected override void Death() {
     stunned = false;
+    sfx.SetSFX(0, false, true);
     anim.SetTrigger("Death");
     director.playableAsset = deathCutscene;
     director.Play();
+  }
+
+  public void DestroyBoss() {
+    Destroy(gameObject);
   }
 
   IEnumerator DamageFlash() {
