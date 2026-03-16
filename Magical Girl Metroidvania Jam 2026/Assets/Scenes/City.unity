@@ -24271,7 +24271,7 @@ MonoBehaviour:
   eventSystem: {fileID: 1730405804}
   elementsToSwapTo:
   - {fileID: 864141583}
-  disableOnSwitch: 0
+  disableOnSwitch: 1
   uiSFX: {fileID: 61776367}
   rooms:
   - {fileID: 977127596}

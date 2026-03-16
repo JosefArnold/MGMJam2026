@@ -155322,7 +155322,7 @@ MonoBehaviour:
   eventSystem: {fileID: 353485483}
   elementsToSwapTo:
   - {fileID: 1516831774}
-  disableOnSwitch: 0
+  disableOnSwitch: 1
   uiSFX: {fileID: 1427311356}
   rooms:
   - {fileID: 949867310}

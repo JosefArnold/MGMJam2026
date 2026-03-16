@@ -4730,7 +4730,7 @@ MonoBehaviour:
   eventSystem: {fileID: 77176629}
   elementsToSwapTo:
   - {fileID: 1338442716}
-  disableOnSwitch: 0
+  disableOnSwitch: 1
   uiSFX: {fileID: 1723936770}
   rooms:
   - {fileID: 1503359097}
@@ -5989,7 +5989,7 @@ PlayableDirector:
   m_GameObject: {fileID: 720986553}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 54309c685dc05c6498a0ebf1e7c98e91, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: f1fa0756070964242a3f823f02a4d8fa, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
