@@ -2,10 +2,18 @@ using System;
 using UnityEngine;
 
 public class Flashbang : MonoBehaviour {
+
+  private Camera cam;
+  private BoxCollider2D boxCollider;
+
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
-    Camera cam = transform.parent.GetComponent<Camera>();
-    gameObject.GetComponent<BoxCollider2D>().size = new Vector2(cam.orthographicSize * cam.aspect * 2.75f, cam.orthographicSize * 2.75f);
+    cam = transform.parent.GetComponent<Camera>();
+    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 2.75f, cam.orthographicSize * 2.75f * (cam.fieldOfView / 70));
+  }
+
+  private void OnEnable() {
+    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 2.75f, cam.orthographicSize * 2.75f * (cam.fieldOfView / 70));
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {

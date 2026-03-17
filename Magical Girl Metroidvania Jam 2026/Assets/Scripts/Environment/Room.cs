@@ -33,7 +33,7 @@ public class Room : MonoBehaviour {
       if (changeFOV)
         cam.SetFOV(newFOV);
 
-      if (roomIndices != null)
+      if (roomIndices != null && roomIndices.Length > 0)
         GameManager.ptr.SetSeenRooms(roomIndices[0], null);
     }
   }

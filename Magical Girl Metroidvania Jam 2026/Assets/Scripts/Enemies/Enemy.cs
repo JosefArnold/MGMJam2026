@@ -200,8 +200,10 @@ public class Enemy : Destructible {
 
   IEnumerator DamageFlash() {
     sr.color = new Color(1.0f, 0.41f, 0.41f);
+    Debug.Log("Color SHOULD be changed");
     yield return new WaitForSeconds(0.5f);
     sr.color = Color.white;
+    Debug.Log("Color should be normal again");
   }
 
   protected override void Death() {

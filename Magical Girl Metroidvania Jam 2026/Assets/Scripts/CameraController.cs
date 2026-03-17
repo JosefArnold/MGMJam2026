@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour {
   [SerializeField] private float smooth;
   [SerializeField] private int cameraMovementRange;
   [SerializeField] private bool cam2D;
+  [SerializeField] private Transform[] startLocations;
 
   private float defaultFOV;
   private float targetFOV;
@@ -27,6 +28,8 @@ public class CameraController : MonoBehaviour {
     Transform playerPos = p.transform;
 
     target = new Vector3(playerPos.position.x, playerPos.position.y, cam2D ? transform.position.z : playerPos.position.z);
+
+    transform.position = startLocations[SaveManager.ptr.GetSpawnPoint()].position;
 
     defaultFOV = cam.fieldOfView;
 

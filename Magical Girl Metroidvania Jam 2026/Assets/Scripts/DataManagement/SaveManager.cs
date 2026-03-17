@@ -151,4 +151,8 @@ public class SaveManager : MonoBehaviour {
     LevelHUD.ptr.ToggleHealth(false);
   }
 
+  public int GetSpawnPoint() {
+    return spawnPoint;
+  }
+
 }

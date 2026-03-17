@@ -74,7 +74,9 @@ public class GameManager : MonoBehaviour {
 
   public void PlayTransformSequence() {
     transformSequence.gameObject.SetActive(true);
+    transformSequence.SetDirectAudioVolume(0, SaveManager.ptr.settings.GetMasterVolume() * SaveManager.ptr.settings.GetMusicVolume());
     transformSequence.Play();
+    LevelHUD.ptr.ToggleHealth(false);
     p.ToggleControls(false);
     MusicManager.ptr.StopTrack();
     StartCoroutine(EndVideo());

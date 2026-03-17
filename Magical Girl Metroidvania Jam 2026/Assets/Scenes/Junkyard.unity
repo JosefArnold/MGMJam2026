@@ -82725,6 +82725,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 326797421}
     m_Modifications:
+    - target: {fileID: 23304319387751433, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 23304319387751433, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 647081758924456029, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6732279748930226372, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
       propertyPath: index
       value: 4
@@ -85709,6 +85721,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1970515818}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResetTimescale
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 79884152}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: PrepSceneTransition
@@ -86389,6 +86413,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 326797421}
     m_Modifications:
+    - target: {fileID: 23304319387751433, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.484
+      objectReference: {fileID: 0}
+    - target: {fileID: 23304319387751433, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 647081758924456029, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6732279748930226372, guid: 53d63fdc4ae0ab24cab95365042d77c8, type: 3}
       propertyPath: index
       value: 3
@@ -152354,7 +152390,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 933865309}
-    m_SelectOnDown: {fileID: 1708329399}
+    m_SelectOnDown: {fileID: 1638356202}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -152978,6 +153014,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1970515818}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResetTimescale
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 410049149}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: PlayReturnSFX
@@ -352254,7 +352302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1473751782}
-  smooth: 0.01
+  smooth: 0.02
   cameraMovementRange: 3
   cam2D: 1
 --- !u!81 &1473751781
@@ -353988,7 +354036,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1708329399}
+    m_SelectOnUp: {fileID: 638241155}
     m_SelectOnDown: {fileID: 1911873288}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1911873288}
@@ -354425,7 +354473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1708329395
 RectTransform:
   m_ObjectHideFlags: 0

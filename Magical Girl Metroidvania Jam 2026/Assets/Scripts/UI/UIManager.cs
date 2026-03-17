@@ -91,6 +91,11 @@ public class UIManager : MonoBehaviour {
 
     ToggleElement(1);
 
+    for (int i = 0; i < UIGroups.Length; i++) {
+      if (i != 1)
+        UIGroups[i].SetActive(false);
+    }
+
     if (paused) {
       Time.timeScale = 0.0f;
       Debug.Log("Paused");
@@ -100,6 +105,10 @@ public class UIManager : MonoBehaviour {
       Debug.Log("Unpaused");
       uiSFX.SetSFX(4, false, true);
     }
+  }
+
+  public void ResetTimescale() {
+    Time.timeScale = 1.0f;
   }
 
   public void Fade() {

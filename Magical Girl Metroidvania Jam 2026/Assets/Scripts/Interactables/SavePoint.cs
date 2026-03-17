@@ -14,6 +14,7 @@ public class SavePoint : Interactable {
   public override void Interact(Player p) {
     SaveManager.ptr.Save(index, p);
     p.TakeDamage(-5);
+    LevelHUD.ptr.UpdateHealth(p.GetHealth());
 
     sfx.SetCycleIndices(new int[] { 0, 1, 2, 3 }, true);
 

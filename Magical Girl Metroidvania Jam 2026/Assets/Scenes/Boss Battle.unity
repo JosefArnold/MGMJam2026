@@ -1105,8 +1105,8 @@ RectTransform:
   - {fileID: 843692801}
   - {fileID: 531718218}
   - {fileID: 1755281236}
-  - {fileID: 2023890392}
   - {fileID: 1546148168}
+  - {fileID: 2023890392}
   m_Father: {fileID: 720986555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2562,6 +2562,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 165543966}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResetTimescale
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 479544643}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: PrepSceneTransition
@@ -2908,7 +2920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &409750461
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3495,7 +3507,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -4014,6 +4026,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 165543966}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ResetTimescale
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1755281235}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: PlayReturnSFX
@@ -4154,7 +4178,7 @@ MonoBehaviour:
   savePoints:
   - {fileID: 382553023}
   - {fileID: 50564223}
-  nextScene: 
+  nextScene: BeginningArea
   currentRoom: 0
   p: {fileID: 701458642}
   transformSequence: {fileID: 0}
@@ -10564,7 +10588,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 533201101
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -12282,9 +12306,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 754667528}
-  smooth: 0.01
+  smooth: 0.02
   cameraMovementRange: 3
   cam2D: 1
+  startLocations:
+  - {fileID: 1534988129}
+  - {fileID: 2097562400}
 --- !u!81 &754667527
 AudioListener:
   m_ObjectHideFlags: 0
@@ -40367,7 +40394,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1934271900}
-    m_SelectOnDown: {fileID: 409750465}
+    m_SelectOnDown: {fileID: 1111304931}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -41497,8 +41524,8 @@ Transform:
   m_GameObject: {fileID: 1051536626}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 305.7, y: 11.7, z: -0.10061895}
-  m_LocalScale: {x: 3.25, y: 3.25, z: 3.25}
+  m_LocalPosition: {x: 291.07, y: 2.4, z: -0.10061895}
+  m_LocalScale: {x: 2.21585, y: 2.21585, z: 2.21585}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -41745,7 +41772,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 409750465}
+    m_SelectOnUp: {fileID: 939425092}
     m_SelectOnDown: {fileID: 61727863}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 61727863}
@@ -42587,8 +42614,8 @@ Transform:
   m_GameObject: {fileID: 1275054790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 296.1, y: 3.9, z: -0.10061895}
-  m_LocalScale: {x: 2.57, y: 2.57, z: 2.57}
+  m_LocalPosition: {x: 284.52, y: -2.9180994, z: -0.10061895}
+  m_LocalScale: {x: 1.752226, y: 1.752226, z: 1.752226}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -44099,6 +44126,8 @@ MonoBehaviour:
   sr:
   - {fileID: 1462432731}
   - {fileID: 431518455}
+  - {fileID: 1396249188}
+  - {fileID: 245016578}
   projectile: {fileID: 1048602375129484654, guid: b20d5c21b33e62c49a5ee0b57eb0e870, type: 3}
   projectileSpawnPoint: {fileID: 226269384}
   projectileSprites:
@@ -44723,6 +44752,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526650364}
   m_CullTransparentMesh: 1
+--- !u!1 &1534988128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1534988129}
+  m_Layer: 0
+  m_Name: CameraStartPos1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1534988129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534988128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 198, y: 16.5, z: -0.12292839}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1539236496
 GameObject:
   m_ObjectHideFlags: 0
@@ -117300,7 +117360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1809597443
 Transform:
   m_ObjectHideFlags: 0
@@ -118673,6 +118733,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2097562399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2097562400}
+  m_Layer: 0
+  m_Name: CameraStartPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2097562400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097562399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 200.5, y: -7, z: -0.12292839}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2099691576
 GameObject:
   m_ObjectHideFlags: 0
@@ -119768,3 +119859,5 @@ SceneRoots:
   - {fileID: 1486760426}
   - {fileID: 1275054792}
   - {fileID: 1051536628}
+  - {fileID: 1534988129}
+  - {fileID: 2097562400}

@@ -363,6 +363,7 @@ public class Player : Destructible, Controls.IPlayerActions {
     sfx.SetCycleIndices(new int[] { 8, 9 }, true);
     StartCoroutine(DamageFlash());
     Invoke("ToggleIFrames", 0.5f);
+    Debug.Log("Player Health: " + health);
     LevelHUD.ptr.UpdateHealth(health);
   }
 

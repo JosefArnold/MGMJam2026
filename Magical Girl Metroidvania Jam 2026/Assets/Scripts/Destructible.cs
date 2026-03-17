@@ -13,7 +13,9 @@ public abstract class Destructible : MonoBehaviour {
     if (!iFrames || damage < 0) {
       health -= damage;
 
-      Mathf.Clamp(health, 0, maxHealth);
+      health = Mathf.Clamp(health, 0, maxHealth);
+
+      Debug.Log("Damage: " + damage);
 
       if (health <= 0)
         Death();
