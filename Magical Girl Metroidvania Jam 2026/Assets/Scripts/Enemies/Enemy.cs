@@ -208,6 +208,7 @@ public class Enemy : Destructible {
 
   protected override void Death() {
     sfx.SetSFX(4, false, true);
+    anim.SetBool("Flying", flying);
     anim.SetTrigger("Death");
     moving = false;
     rb.linearVelocity = Vector2.zero;

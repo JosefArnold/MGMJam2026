@@ -9,6 +9,7 @@ public class Flashbang : MonoBehaviour {
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start() {
     cam = transform.parent.GetComponent<Camera>();
+    boxCollider = GetComponent<BoxCollider2D>();
     boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 2.75f, cam.orthographicSize * 2.75f * (cam.fieldOfView / 70));
   }
 

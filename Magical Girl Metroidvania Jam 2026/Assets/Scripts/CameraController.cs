@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour {
 
@@ -29,9 +30,12 @@ public class CameraController : MonoBehaviour {
 
     target = new Vector3(playerPos.position.x, playerPos.position.y, cam2D ? transform.position.z : playerPos.position.z);
 
-    transform.position = startLocations[SaveManager.ptr.GetSpawnPoint()].position;
+    if (!SceneManager.GetActiveScene().name.Equals("BeginningArea"))
+      transform.position = startLocations[SaveManager.ptr.GetSpawnPoint()].position;
+    else
+      transform.position = startLocations[0].position;
 
-    defaultFOV = cam.fieldOfView;
+      defaultFOV = cam.fieldOfView;
 
     //TEMP
     //minPos = new Vector3(-1, 1.0f, -10);

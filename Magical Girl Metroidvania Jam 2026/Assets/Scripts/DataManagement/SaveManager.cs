@@ -129,6 +129,8 @@ public class SaveManager : MonoBehaviour {
   public void WipeSave() {
     if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
       File.Delete(Application.persistentDataPath + "/gamesave.save");
+
+    GameManager.ptr.p.SetAbilities(new bool[] { false, false, false, false, false, false });
   }
 
   private void StartMenuLoad() {
