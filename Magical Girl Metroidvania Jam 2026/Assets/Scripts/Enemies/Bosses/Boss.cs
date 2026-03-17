@@ -20,6 +20,8 @@ public class Boss : Destructible {
   void Start() {
     sfx = GetComponent<SFX>();
     anim = GetComponent<Animator>();
+
+    health = maxHealth;
   }
 
   // Update is called once per frame

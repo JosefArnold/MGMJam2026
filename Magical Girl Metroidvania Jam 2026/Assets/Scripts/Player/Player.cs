@@ -441,14 +441,14 @@ public class Player : Destructible, Controls.IPlayerActions {
   public void ToggleAbility(int index, bool b) {
     abilities[index] = b;
 
-    if (abilities[5])
+    if (abilities[5] && !SceneManager.GetActiveScene().name.Equals("BeginningArea"))
       LevelHUD.ptr.ToggleUISlider(1, true);
   }
 
   public void SetAbilities(bool[] b) {
     abilities = b;
 
-    if (abilities[5])
+    if (abilities[5] && !SceneManager.GetActiveScene().name.Equals("BeginningArea"))
       LevelHUD.ptr.ToggleUISlider(1, true);
   }
 

@@ -87,6 +87,7 @@ public class Attack : MonoBehaviour {
   }
 
   public void AssignSprite(Sprite s) {
+    sr = GetComponent<SpriteRenderer>();
     sr.sprite = s;
   }
 

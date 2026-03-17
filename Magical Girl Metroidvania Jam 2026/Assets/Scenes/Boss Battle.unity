@@ -40264,6 +40264,10 @@ PrefabInstance:
       value: CameraLock
       objectReference: {fileID: 0}
     - target: {fileID: 427956979159399517, guid: f5c30e5a40cf3834fa376b39f92ba7be, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 427956979159399517, guid: f5c30e5a40cf3834fa376b39f92ba7be, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -44059,7 +44063,7 @@ GameObject:
   - component: {fileID: 1462432728}
   - component: {fileID: 1462432733}
   - component: {fileID: 1462432732}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -44225,7 +44229,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: -1
   m_Sprite: {fileID: 8400202846859118648, guid: 9ebfe4332b8d9c64992e9684776980cf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

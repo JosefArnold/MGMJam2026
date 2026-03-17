@@ -162,7 +162,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -7926088971212448456, guid: 3302a45e1a0290345a244e3bef32815c, type: 3}
+      value: {fileID: -3266267996593112586, guid: 2ef74a22f69b5ef4c9eceb3b3b25c010, type: 3}
     attribute: m_Sprite
     path: EnemyScript
     classID: 212
@@ -230,7 +230,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -7926088971212448456, guid: 3302a45e1a0290345a244e3bef32815c, type: 3}
+    - {fileID: -3266267996593112586, guid: 2ef74a22f69b5ef4c9eceb3b3b25c010, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

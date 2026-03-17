@@ -22,7 +22,7 @@ public class MusicManager : MonoBehaviour {
     defaultVolume = audioSource.volume;
     audioSource.volume = SaveManager.ptr.settings.GetMusicVolume() * SaveManager.ptr.settings.GetMasterVolume() * defaultVolume;
 
-    if (!SceneManager.GetActiveScene().name.Equals("Boss Fight"))
+    if (!SceneManager.GetActiveScene().name.Equals("Boss Battle"))
       DelayPlayTrack(1.0f);
   }
 
