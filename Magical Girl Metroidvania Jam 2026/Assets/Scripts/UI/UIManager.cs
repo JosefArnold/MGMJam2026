@@ -86,14 +86,13 @@ public class UIManager : MonoBehaviour {
   public void Pause() {
     paused = !paused;
 
-    if (paused)
-      eventSystem.SetSelectedGameObject(pauseBtn);
-
-    ToggleElement(1);
-
     for (int i = 0; i < UIGroups.Length; i++) {
-      if (i != 1)
-        UIGroups[i].SetActive(false);
+      UIGroups[i].SetActive(false);
+    }
+
+    if (paused) {
+      ToggleElement(1);
+      eventSystem.SetSelectedGameObject(pauseBtn);
     }
 
     if (paused) {
