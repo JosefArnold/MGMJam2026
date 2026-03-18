@@ -10,11 +10,11 @@ public class Flashbang : MonoBehaviour {
   void Start() {
     cam = transform.parent.GetComponent<Camera>();
     boxCollider = GetComponent<BoxCollider2D>();
-    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 2.75f, cam.orthographicSize * 2.75f * (cam.fieldOfView / 70));
+    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 3.0f, cam.orthographicSize * 3.0f * (cam.fieldOfView / 70));
   }
 
   private void OnEnable() {
-    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 2.75f, cam.orthographicSize * 2.75f * (cam.fieldOfView / 70));
+    boxCollider.size = new Vector2(cam.orthographicSize * cam.aspect * (cam.fieldOfView / 70) * 3.0f, cam.orthographicSize * 3.0f * (cam.fieldOfView / 70));
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {
